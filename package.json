@@ -1,0 +1,23 @@
+{
+  "name": "foxandsheep",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikaelrss/foxandsheep.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mikaelrss/foxandsheep/issues"
+  },
+  "homepage": "https://github.com/mikaelrss/foxandsheep#readme",
+  "dependencies": {
+    "global": "^4.3.2",
+    "prettier": "^1.14.0"
+  }
+}
