@@ -1,2 +1,5 @@
 :local(.gameContainer) {
-  border: 1px solid red; }
+  text-align: center; }
+
+:local(.board) {
+  position: relative; }

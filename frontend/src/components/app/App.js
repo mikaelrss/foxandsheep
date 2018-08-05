@@ -5,7 +5,7 @@ import { HttpLink } from "apollo-link-http";
 import { Route } from "react-router-dom";
 import { InMemoryCache } from "apollo-cache-inmemory/lib";
 import { BrowserRouter } from "react-router-dom";
-import RootContainer from "./components/RootContainer";
+import RootContainer from "../RootContainer";
 
 const cache = new InMemoryCache({
   dataIdFromObject: o => o.id

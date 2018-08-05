@@ -1,0 +1,6 @@
+:local(.row) {
+  display: flex; }
+  :local(.row) > div {
+    flex: 1 1 auto; }
+  :local(.row):last-of-type > div {
+    border-bottom: none !important; }

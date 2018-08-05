@@ -1,0 +1,18 @@
+:local(.character) {
+  height: 25px;
+  width: 25px;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+
+  &.fox {
+    background-color: orange;
+  }
+
+  &.cat {
+    background-color: gray;
+  }
+
+  &.sheep {
+    background-color: white;
+  }
+}

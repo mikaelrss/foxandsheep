@@ -1,0 +1,17 @@
+:local(.cell) {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: #51d1ff; }
+  :local(.cell):not(:last-of-type) {
+    border-right: 2px solid rgba(255, 255, 255, 0.3); }
+  :local(.cell).highlighted {
+    background-color: #84deff; }
+
+:local(.grass) {
+  position: absolute;
+  background-color: green;
+  height: 40%;
+  width: 40%; }
