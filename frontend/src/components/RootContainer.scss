@@ -1,0 +1,10 @@
+@import '../../styles/constants';
+
+:local(.container) {
+  margin-left: 10px;
+  margin-right: 10px;
+
+  @media screen and (max-width: $break-desktop) {
+    max-width: 1200px;
+  }
+}
