@@ -1,15 +1,17 @@
 // @flow
 
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import Row from './row/Row';
 
 import style from './Game.css';
-import type { CellType, PositionType } from '../../types';
+import type { CellType, CharacterType, PositionType } from '../../types';
 import Character from './characters/fox/Character';
+import socketClient from 'socket.io-client';
 
 type GameProps = {
   rowNumber: number,
-  cellNumber: number,
+  cellSize: number,
 };
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
@@ -28,53 +30,54 @@ const highlightLegalSquares = (state: Array<Array<CellType>>, originalPosition: 
 };
 
 const serverState = [
-  // [{}, { grass: true }, {}, { fox: true }, {}, {}, {}, {}, {}, {}],
-  // [{}, {}, {}, {}, { grass: true }, {}, {}, {}, {}, {}],
-  // [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  // [{ grass: true }, {}, {}, { grass: true }, {}, {}, {}, {}, {}, {}],
-  // [{}, {}, { grass: true }, {}, {}, {}, {}, {}, {}, {}],
-  // [{}, { sheep: true }, {}, {}, {}, {}, {}, {}, {}, {}],
-  // [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  // [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  // [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  // [{}, { highlighted: true }, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, { grass: true }, {}, { fox: true }, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, { grass: true }, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{ grass: true }, {}, {}, { grass: true }, {}, {}, {}, {}, {}, {}],
+  [{}, {}, { grass: true }, {}, {}, {}, {}, {}, {}, {}],
+  [{}, { sheep: true }, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
+  [{}, { highlighted: true }, {}, {}, {}, {}, {}, {}, {}, {}],
 ];
 
 type State = {
   serverState: Array<Array<CellType>>,
   playerPosition: PositionType,
+  originalPosition: PositionType,
   opponentPosition: PositionType,
   cellSize: number,
   movementSize: number,
+  catcher: boolean,
+  character: CharacterType,
 };
 
 class Game extends Component<GameProps, State> {
-  state = {
-    serverState: highlightLegalSquares(serverState, { x: 3, y: 6 }, 2),
-    originalPosition: { x: 3, y: 6 },
-    playerPosition: { x: 3, y: 6 },
-    opponentPosition: { x: 7, y: 8 },
-    cellSize: 25,
-    movementSize: 2,
-  };
+  constructor(props) {
+    super(props);
 
-  container: ?HTMLDivElement;
+    this.state = {
+      originalPosition: { x: 3, y: 6 },
+      playerPosition: { x: 3, y: 6 },
+      opponentPosition: { x: 7, y: 8 },
+      movementSize: 2,
+      catcher: true,
+      character: 'fox',
+      board: highlightLegalSquares(serverState, { x: 3, y: 6 }, 2),
+      socket: props.socket,
+    };
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.handlePlayerMovement);
-    if (this.container) {
-      this.setState({
-        cellSize:
-          this.container.getBoundingClientRect().width / this.state.serverState[0] && this.state.serverState[0].length,
-      });
-    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handlePlayerMovement);
   }
 
-  handlePlayerMovement = event => {
+  handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
     switch (event.key) {
       case 'ArrowUp':
         this.moveUp();
@@ -95,8 +98,12 @@ class Game extends Component<GameProps, State> {
 
   moveUp = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === 0) return;
-    if (playerPosition.y <= originalPosition.y - this.state.movementSize) return;
+    if (playerPosition.y === 0) {
+      return;
+    }
+    if (playerPosition.y <= originalPosition.y - this.state.movementSize) {
+      return;
+    }
 
     this.setState({
       playerPosition: {
@@ -107,8 +114,12 @@ class Game extends Component<GameProps, State> {
   };
   moveDown = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === this.state.serverState[0].length - 1) return;
-    if (playerPosition.y >= originalPosition.y + this.state.movementSize) return;
+    if (playerPosition.y === this.state.board[0].length - 1) {
+      return;
+    }
+    if (playerPosition.y >= originalPosition.y + this.state.movementSize) {
+      return;
+    }
 
     this.setState({
       playerPosition: {
@@ -119,8 +130,12 @@ class Game extends Component<GameProps, State> {
   };
   moveLeft = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === 0) return;
-    if (playerPosition.x <= originalPosition.x - this.state.movementSize) return;
+    if (playerPosition.x === 0) {
+      return;
+    }
+    if (playerPosition.x <= originalPosition.x - this.state.movementSize) {
+      return;
+    }
 
     this.setState({
       playerPosition: {
@@ -131,8 +146,12 @@ class Game extends Component<GameProps, State> {
   };
   moveRight = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === this.state.serverState[0].length - 1) return;
-    if (playerPosition.x >= originalPosition.x + this.state.movementSize) return;
+    if (playerPosition.x === this.state.board[0].length - 1) {
+      return;
+    }
+    if (playerPosition.x >= originalPosition.x + this.state.movementSize) {
+      return;
+    }
 
     this.setState({
       playerPosition: {
@@ -143,17 +162,13 @@ class Game extends Component<GameProps, State> {
   };
 
   render() {
-    const { cellSize } = this.state;
+    if (!this.state.board) return null;
+    const { cellSize } = this.props;
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
-        <div
-          className={style.board}
-          ref={node => {
-            this.container = node;
-          }}
-        >
-          {this.state.serverState.map(row => (
+        <div className={style.board}>
+          {this.state.board.map(row => (
             <Row cells={row} cellSize={cellSize} />
           ))}
           <Character position={this.state.playerPosition} cellSize={cellSize} character="fox" />
@@ -164,4 +179,4 @@ class Game extends Component<GameProps, State> {
   }
 }
 
-export default Game;
+export default withRouter(Game);

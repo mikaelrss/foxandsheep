@@ -3,9 +3,9 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Version from './version/Version';
-import Game from './game/Game';
 
 import style from './RootContainer.css';
+import Lobby from './lobby/Lobby';
 
 const RootContainer = () => {
   return (
@@ -13,7 +13,7 @@ const RootContainer = () => {
       <div className={style.content}>
         <Switch>
           <Route path="/version" component={Version} />
-          <Route path="/" render={props => <Game rowNumber={10} cellNumber={10} {...props} />} />
+          <Route path="/" component={Lobby} />
         </Switch>
       </div>
     </div>

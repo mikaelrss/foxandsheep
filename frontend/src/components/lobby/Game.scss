@@ -1,0 +1,27 @@
+:local(.roomList) {
+  > div {
+    height: 40px;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 5px solid #69e6ff;
+    margin-bottom: 10px;
+
+    &:hover {
+      background-color: darken(white, 10);
+    }
+
+    a {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: 40px;
+
+      text-decoration: none;
+      color: #282828;
+      font-weight: bold;
+    }
+  }
+}

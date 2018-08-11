@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import Cell from '../cell/Cell';
 import { spring } from 'react-spring';
 
@@ -12,30 +12,15 @@ type RowProps = {
   cellSize: number,
 };
 
-class Row extends Component<RowProps> {
-  row: ?HTMLDivElement;
-
-  componentDidUpdate() {
-    if (this.row && this.row.style) {
-      this.row.style.height = `${this.props.cellSize}px`;
-    }
-  }
-
-  render() {
-    const { cells } = this.props;
-    return (
-      <div
-        className={style.row}
-        ref={node => {
-          this.row = node;
-        }}
-      >
-        {cells.map(cell => (
-          <Cell cell={cell}/>
-        ))}
-      </div>
-    );
-  }
-}
+const Row = (props: RowProps) => {
+  const { cells, cellSize } = props;
+  return (
+    <div className={style.row}>
+      {cells.map(cell => (
+        <Cell cell={cell} cellSize={cellSize} />
+      ))}
+    </div>
+  );
+};
 
 export default Row;

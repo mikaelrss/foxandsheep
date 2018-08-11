@@ -4,14 +4,14 @@ import React, { Component } from 'react';
 import { Spring } from 'react-spring';
 import classNames from 'classnames';
 
-import type { PositionType } from '../../../../types';
+import type { CharacterType, PositionType } from '../../../../types';
 
 import css from './Character.css';
 
 type Props = {
   position: PositionType,
   cellSize: number,
-  character: 'fox' | 'sheep',
+  character: CharacterType,
 };
 
 type State = {
@@ -44,7 +44,7 @@ class Character extends Component<Props, State> {
         to={{
           top: this.props.position.y,
           left: this.props.position.x,
-          rotation: this.state.rotation,
+          // rotation: this.state.rotation,
         }}
       >
         {({ top, left, rotation }) => {
@@ -52,9 +52,11 @@ class Character extends Component<Props, State> {
             <div
               className={classNames(css.character, this.props.character)}
               style={{
-                top: `${top * cellSize + cellSize / 2}px`,
-                left: `${left * cellSize + cellSize / 2}px`,
-                transform: `translateX(-50%) translateY(-50%) rotate(${rotation}deg)`,
+                top: `${top * cellSize}px`,
+                left: `${left * cellSize}px`,
+                height: `${cellSize - 2}px`,
+                width: `${cellSize - 2}px`,
+                transform: `rotate(${rotation}deg)`,
               }}
             />
           );

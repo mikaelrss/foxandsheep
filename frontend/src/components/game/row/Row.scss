@@ -1,10 +1,6 @@
 :local(.row) {
   display: flex;
 
-  > div {
-    flex: 1 1 auto;
-  }
-
   &:last-of-type {
     > div {
       border-bottom: none !important;

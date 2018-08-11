@@ -18,7 +18,12 @@
     "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-tools": "^3.1.1",
+    "http": "^0.0.0",
+    "mongoose": "^5.2.6",
     "nodemon": "^1.18.3",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "sillyname": "^0.1.0",
+    "socket.io": "^2.1.1",
+    "uuid": "^3.3.2"
   }
 }

@@ -4,7 +4,8 @@
 
 :local(.board) {
   position: relative;
-
+  display: inline-flex;
+  flex-direction: column;
 }
 
 
