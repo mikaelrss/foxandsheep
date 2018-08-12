@@ -1,27 +1,24 @@
-import sillyname from 'sillyname';
-import uuid from 'uuid/v4';
-
 import { rooms, roomToNameAndIdMapper } from '../index';
-import { createGameState } from './BoardCreator';
+import { initializeRoom } from './roomCreator';
 
 const remove = (array, element) => {
   const index = array.indexOf(element);
   array.splice(index, 1);
 };
 
-export const createRoom = (socket, io) => {
+const createClientInformation = room => ({
+  roomName: room.name,
+  gameState: room.gameState,
+  catcher: room.player1,
+  runner: room.player2,
+});
+
+export const createRoom = (socket, io, payload) => {
   console.log('CREATE');
-  const roomName = sillyname();
-  const room = {
-    name: roomName,
-    player1: socket.id,
-    player2: null,
-    roomId: uuid(),
-    gameState: createGameState(10),
-  };
+  const room = initializeRoom(socket, payload.roomName);
   rooms.push(room);
-  socket.join(roomName);
-  io.to(roomName).emit('serverStateChange', { gameState: room.gameState });
+  socket.join(room.name);
+  io.to(room.name).emit('serverStateChange', createClientInformation(room));
   io.emit('roomsUpdated', { rooms: rooms.map(roomToNameAndIdMapper) });
 };
 
@@ -36,7 +33,7 @@ export const joinRoom = (socket, io, payload) => {
     return;
   }
   socket.join(requestedRoom.name);
-  io.to(requestedRoom.name).emit('serverStateChange', { gameState: requestedRoom.gameState });
+  io.to(requestedRoom.name).emit('serverStateChange', createClientInformation(requestedRoom));
   io.to(requestedRoom.name).emit('startGame', { board: ['test-board'] });
 };
 

@@ -2,16 +2,18 @@
 
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+import type { CellType, CharacterType, ClientInformationType, PositionType, RowType } from '../../types';
+
 import Row from './row/Row';
+import Character from './characters/fox/Character';
+import GameHeader from './gameheader/GameHeader';
+import { setGameState } from './GameActions';
 
 import style from './Game.css';
-import type { CellType, CharacterType, PositionType } from '../../types';
-import Character from './characters/fox/Character';
-
-type GameProps = {
-  rowNumber: number,
-  cellSize: number,
-};
+import selector from './GameSelector';
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
   const insideX = cellPosition.x >= originalPosition.x - step && cellPosition.x <= originalPosition.x + step;
@@ -22,47 +24,49 @@ const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosi
   };
 };
 
-const highlightLegalSquares = (state: Array<Array<CellType>>, originalPosition: PositionType, stepSize: number) => {
-  return state.map((row, i) => row.map((cell, u) => applyHighlight(cell, originalPosition, { y: i, x: u }, stepSize)));
+const highlightLegalSquares = (state: Array<RowType>, originalPosition: PositionType, stepSize: number) => {
+  return state.map((row, i) => ({
+    row: row.row.map((cell, u) => applyHighlight(cell, originalPosition, { y: i, x: u }, stepSize)),
+    key: row.key,
+  }));
 };
 
-const serverState = [
-  [{}, { grass: true }, {}, { fox: true }, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, { grass: true }, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{ grass: true }, {}, {}, { grass: true }, {}, {}, {}, {}, {}, {}],
-  [{}, {}, { grass: true }, {}, {}, {}, {}, {}, {}, {}],
-  [{}, { sheep: true }, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
-  [{}, { highlighted: true }, {}, {}, {}, {}, {}, {}, {}, {}],
-];
-
 type State = {
-  serverState: Array<Array<CellType>>,
-  gameBoard: Array<Array<CellType>>,
+  gameBoard: Array<RowType>,
   playerPosition: PositionType,
   originalPosition: PositionType,
   opponentPosition: PositionType,
   cellSize: number,
   stepSize: number,
-  catcher: boolean,
+  playerIsCatcher: boolean,
   character: CharacterType,
+};
+
+type GameProps = {
+  rowNumber: number,
+  cellSize: number,
+  setGameState: () => void,
+  gameBoard: Array<RowType>,
+  playerPosition: PositionType,
+  originalPosition: PositionType,
+  opponentPosition: PositionType,
+  cellSize: number,
+  stepSize: number,
+  playerIsCatcher: boolean,
+  character: CharacterType,
+  roomName: string,
 };
 
 class Game extends Component<GameProps, State> {
   constructor(props) {
     super(props);
 
-    const socket = props.socket;
-    socket.on('serverStateChange', this.handleServerStateChange);
+    props.socket.on('serverStateChange', this.handleServerStateChange);
 
     this.state = {
-      catcher: true,
       character: 'fox',
       gameBoard: [],
-      socket,
+      socket: props.socket,
     };
   }
 
@@ -74,16 +78,26 @@ class Game extends Component<GameProps, State> {
     document.removeEventListener('keydown', this.handlePlayerMovement);
   }
 
-  handleServerStateChange = payload => {
-    console.log('SERVRE CHANGE', payload);
-    const { catcherPosition, runnerPosition, catcherStepSize, gameBoard } = payload.gameState;
-    this.setState({
-      originalPosition: catcherPosition,
-      playerPosition: catcherPosition,
-      opponentPosition: runnerPosition,
-      stepSize: catcherStepSize,
-      gameBoard: highlightLegalSquares(gameBoard, catcherPosition, catcherStepSize),
-    });
+  handleServerStateChange = (payload: ClientInformationType) => {
+    const { catcherPosition, runnerPosition, catcherStepSize, runnerStepSize, gameBoard } = payload.gameState;
+
+    const playerIsCatcher = payload.catcher === this.state.socket.id;
+    const playerPosition = playerIsCatcher ? catcherPosition : runnerPosition;
+    const opponentPosition = playerIsCatcher ? runnerPosition : catcherPosition;
+    const stepSize = playerIsCatcher ? catcherStepSize : runnerStepSize;
+
+    this.props.setGameState(
+      {
+        roomName: payload.roomName,
+        originalPosition: playerPosition,
+        playerPosition,
+        opponentPosition,
+        stepSize,
+        playerIsCatcher,
+        gameBoard: highlightLegalSquares(gameBoard, playerPosition, stepSize),
+      },
+      this.props.roomName
+    );
   };
 
   handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
@@ -106,13 +120,9 @@ class Game extends Component<GameProps, State> {
   };
 
   moveUp = () => {
-    const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === 0) {
-      return;
-    }
-    if (playerPosition.y <= originalPosition.y - this.state.stepSize) {
-      return;
-    }
+    const { playerPosition, originalPosition } = this.props;
+    if (playerPosition.y === 0) return;
+    if (playerPosition.y <= originalPosition.y - this.props.stepSize) return;
 
     this.setState({
       playerPosition: {
@@ -122,13 +132,9 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveDown = () => {
-    const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === this.state.gameBoard[0].length - 1) {
-      return;
-    }
-    if (playerPosition.y >= originalPosition.y + this.state.stepSize) {
-      return;
-    }
+    const { playerPosition, originalPosition } = this.props;
+    if (playerPosition.y === this.props.gameBoard[0].length - 1) return;
+    if (playerPosition.y >= originalPosition.y + this.props.stepSize) return;
 
     this.setState({
       playerPosition: {
@@ -138,13 +144,9 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveLeft = () => {
-    const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === 0) {
-      return;
-    }
-    if (playerPosition.x <= originalPosition.x - this.state.stepSize) {
-      return;
-    }
+    const { playerPosition, originalPosition } = this.props;
+    if (playerPosition.x === 0) return;
+    if (playerPosition.x <= originalPosition.x - this.props.stepSize) return;
 
     this.setState({
       playerPosition: {
@@ -154,13 +156,11 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveRight = () => {
-    const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === this.state.gameBoard[0].length - 1) {
-      return;
-    }
-    if (playerPosition.x >= originalPosition.x + this.state.stepSize) {
-      return;
-    }
+    this.props.setGameState({ stepSize: 7 });
+
+    const { playerPosition, originalPosition } = this.props;
+    if (playerPosition.x === this.props.gameBoard[0].length - 1) return;
+    if (playerPosition.x >= originalPosition.x + this.props.stepSize) return;
 
     this.setState({
       playerPosition: {
@@ -171,17 +171,25 @@ class Game extends Component<GameProps, State> {
   };
 
   render() {
-    const { cellSize } = this.props;
+    const { cellSize, playerIsCatcher, playerPosition, opponentPosition } = this.props;
+
+    console.log(this.props);
+
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
+        <GameHeader gameState={this.state} />
         <div className={style.board}>
-          {this.state.gameBoard.length && this.state.gameBoard.map(row => <Row cells={row} cellSize={cellSize} />)}
-          {this.state.playerPosition && (
-            <Character position={this.state.playerPosition} cellSize={cellSize} character="fox" />
+          {this.props.gameBoard &&
+            this.props.gameBoard.length &&
+            this.props.gameBoard.map(row => {
+              return <Row playerIsCatcher={playerIsCatcher} cells={row.row} cellSize={cellSize} key={row.key} />;
+            })}
+          {playerPosition && (
+            <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
           )}
-          {this.state.opponentPosition && (
-            <Character position={this.state.opponentPosition} cellSize={cellSize} character="sheep" />
+          {opponentPosition && (
+            <Character position={opponentPosition} cellSize={cellSize} character={!playerIsCatcher ? 'fox' : 'sheep'} />
           )}
         </div>
       </div>
@@ -189,4 +197,14 @@ class Game extends Component<GameProps, State> {
   }
 }
 
-export default withRouter(Game);
+const withRedux = connect(
+  selector,
+  {
+    setGameState,
+  }
+);
+
+export default compose(
+  withRedux,
+  withRouter
+)(Game);

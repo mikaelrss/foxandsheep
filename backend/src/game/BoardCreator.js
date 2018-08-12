@@ -1,3 +1,5 @@
+import shortId from 'shortid';
+
 import { randomIntFromInterval } from '../utils/Math';
 
 const createGameRow = cellNumber => {
@@ -7,6 +9,7 @@ const createGameRow = cellNumber => {
       grass: false,
       fox: false,
       sheep: false,
+      key: shortId.generate(),
     });
   }
 
@@ -16,7 +19,7 @@ const createGameRow = cellNumber => {
 const createGameBoard = rowNumber => {
   const gameBoard = [];
   for (let i = 0; i < rowNumber; i++) {
-    gameBoard.push(createGameRow(rowNumber));
+    gameBoard.push({ row: createGameRow(rowNumber), key: shortId.generate() });
   }
 
   return gameBoard;
@@ -37,7 +40,7 @@ const populateBoardWithGrass = gameBoard => {
   }
   const populatedBoard = [...gameBoard];
   positions.forEach(position => {
-    populatedBoard[position.x][position.y].grass = true;
+    populatedBoard[position.x].row[position.y].grass = true;
   });
   return populatedBoard;
 };
@@ -70,13 +73,13 @@ const createPlayerPositions = (gameBoard, catcherRange) => {
 
 const placePlayersOnBoard = (gameBoard, positions) => {
   const populatedBoard = [...gameBoard];
-  populatedBoard[positions[0].x][positions[0].y].fox = true;
-  populatedBoard[positions[1].x][positions[1].y].sheep = true;
+  populatedBoard[positions[0].x].row[positions[0].y].fox = true;
+  populatedBoard[positions[1].x].row[positions[1].y].sheep = true;
   return populatedBoard;
 };
 
-export const createGameState = rowNumber => {
-  if (!rowNumber) throw new Error('No number of rows was specified');
+export const createGameState = (rowNumber, playerIsCatcher) => {
+  if (!rowNumber) throw new Error('No number of row was specified');
   const gameBoard = createGameBoard(rowNumber);
 
   const playerPositions = createPlayerPositions(gameBoard, 3);
@@ -90,5 +93,6 @@ export const createGameState = rowNumber => {
     runnerStepSize: 2,
     catcherPosition: playerPositions[0],
     runnerPosition: playerPositions[1],
+    playerIsCatcher,
   };
 };

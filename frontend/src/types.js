@@ -6,6 +6,27 @@ export type CellType = {
   sheep?: boolean,
 };
 
+export type GameStateType = {
+  gameBoard: string,
+  catcherStepSize: number,
+  runnerStepSize: number,
+  catcherPosition: PositionType,
+  runnerPosition: PositionType,
+  playerIsCatcher: boolean,
+};
+
+export type ClientInformationType = {
+  roomName: string,
+  gameState: Object,
+  catcher: string,
+  runner: string,
+};
+
+export type RowType = {
+  row: Array<CellType>,
+  key: string,
+};
+
 export type PositionType = {
   x: number,
   y: number,

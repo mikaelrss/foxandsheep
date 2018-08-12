@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react';
 import { withRouter, Switch, Route, Link } from 'react-router-dom';
+import sillyName from 'sillyname';
+import camelCase from 'camelcase';
 
 import type { Socket } from 'socket.io-client';
 
@@ -56,8 +58,12 @@ class Lobby extends Component<Props, State> {
   };
 
   createRoom = () => {
-    this.state.socket.emit('createRoom');
-    this.props.history.push({ pathname: '/game/', state: { createRoom: true } });
+    const roomName = sillyName();
+    this.state.socket.emit('createRoom', { roomName: roomName });
+    this.props.history.push({
+      pathname: `/game/:${camelCase(roomName)}`,
+      state: { createRoom: true, roomName: camelCase(roomName) },
+    });
   };
 
   joinRoom = (roomId: string) => {
@@ -69,7 +75,10 @@ class Lobby extends Component<Props, State> {
     return (
       <div>
         <Switch>
-          <Route path="/game" render={() => <Game cellSize={50} socket={this.state.socket} />} />
+          <Route
+            path="/game"
+            render={props => <Game cellSize={50} socket={this.state.socket} roomName={props.location.state.roomName} />}
+          />
         </Switch>
         {!joinedRoom && (
           <div>
@@ -77,7 +86,7 @@ class Lobby extends Component<Props, State> {
             <div className={style.roomList}>
               {this.state.rooms.map(roomName => (
                 <div key={roomName.id}>
-                  <Link to="/game" onClick={this.joinRoom.bind(this, roomName.id)}>
+                  <Link to={`/game/:${camelCase(roomName.name)}`} onClick={this.joinRoom.bind(this, roomName.id)}>
                     {roomName.name}
                   </Link>
                 </div>

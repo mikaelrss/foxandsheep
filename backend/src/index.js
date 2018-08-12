@@ -5,7 +5,7 @@ import http from 'http';
 
 import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
-import { createRoom, disconnect, joinRoom } from "./game";
+import { createRoom, disconnect, joinRoom } from "./socketadapter/index";
 
 const DEFAULT_PORT = 4000;
 
@@ -27,7 +27,7 @@ io.on('connection', socket => {
   io.to(socket.id).emit('roomNames', { rooms: rooms.map(roomToNameAndIdMapper) });
   console.log('Connected', socket.id);
 
-  socket.on('createRoom', () => createRoom(socket, io));
+  socket.on('createRoom', (payload) => createRoom(socket, io, payload));
   socket.on('joinRoom', (payload) => joinRoom(socket, io, payload));
 
   socket.on('disconnect', () => {
