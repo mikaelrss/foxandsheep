@@ -5,7 +5,7 @@ import http from 'http';
 
 import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
-import { createRoom, disconnect } from './gameserver';
+import { createRoom, disconnect, joinRoom } from "./game";
 
 const DEFAULT_PORT = 4000;
 
@@ -21,14 +21,14 @@ const io = socket(httpServer);
 
 export const rooms = [];
 
-export const roomToNameMapper = room => room.name;
+export const roomToNameAndIdMapper = room => ({ name: room.name, id: room.roomId });
 
 io.on('connection', socket => {
-  io.to(socket.id).emit('roomNames', { roomNames: rooms.map(roomToNameMapper) });
+  io.to(socket.id).emit('roomNames', { rooms: rooms.map(roomToNameAndIdMapper) });
   console.log('Connected', socket.id);
 
   socket.on('createRoom', () => createRoom(socket, io));
-  socket.on('joinRoom', () => joinRoom(socket, io));
+  socket.on('joinRoom', (payload) => joinRoom(socket, io, payload));
 
   socket.on('disconnect', () => {
     disconnect(socket, io);
@@ -37,7 +37,7 @@ io.on('connection', socket => {
 
 setInterval(() => {
   console.log(rooms);
-}, 2000);
+}, 20000);
 
 httpServer.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);

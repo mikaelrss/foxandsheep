@@ -13,6 +13,7 @@
   "dependencies": {
     "apollo-server-express": "^2.0.0",
     "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
     "body-parser": "^1.18.3",
     "express": "^4.16.3",

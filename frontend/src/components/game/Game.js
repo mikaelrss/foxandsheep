@@ -7,7 +7,6 @@ import Row from './row/Row';
 import style from './Game.css';
 import type { CellType, CharacterType, PositionType } from '../../types';
 import Character from './characters/fox/Character';
-import socketClient from 'socket.io-client';
 
 type GameProps = {
   rowNumber: number,
@@ -23,10 +22,8 @@ const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosi
   };
 };
 
-const highlightLegalSquares = (state: Array<Array<CellType>>, originalPosition: PositionType, movementSize: number) => {
-  return state.map((row, i) =>
-    row.map((cell, u) => applyHighlight(cell, originalPosition, { y: i, x: u }, movementSize))
-  );
+const highlightLegalSquares = (state: Array<Array<CellType>>, originalPosition: PositionType, stepSize: number) => {
+  return state.map((row, i) => row.map((cell, u) => applyHighlight(cell, originalPosition, { y: i, x: u }, stepSize)));
 };
 
 const serverState = [
@@ -44,11 +41,12 @@ const serverState = [
 
 type State = {
   serverState: Array<Array<CellType>>,
+  gameBoard: Array<Array<CellType>>,
   playerPosition: PositionType,
   originalPosition: PositionType,
   opponentPosition: PositionType,
   cellSize: number,
-  movementSize: number,
+  stepSize: number,
   catcher: boolean,
   character: CharacterType,
 };
@@ -57,15 +55,14 @@ class Game extends Component<GameProps, State> {
   constructor(props) {
     super(props);
 
+    const socket = props.socket;
+    socket.on('serverStateChange', this.handleServerStateChange);
+
     this.state = {
-      originalPosition: { x: 3, y: 6 },
-      playerPosition: { x: 3, y: 6 },
-      opponentPosition: { x: 7, y: 8 },
-      movementSize: 2,
       catcher: true,
       character: 'fox',
-      board: highlightLegalSquares(serverState, { x: 3, y: 6 }, 2),
-      socket: props.socket,
+      gameBoard: [],
+      socket,
     };
   }
 
@@ -76,6 +73,18 @@ class Game extends Component<GameProps, State> {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handlePlayerMovement);
   }
+
+  handleServerStateChange = payload => {
+    console.log('SERVRE CHANGE', payload);
+    const { catcherPosition, runnerPosition, catcherStepSize, gameBoard } = payload.gameState;
+    this.setState({
+      originalPosition: catcherPosition,
+      playerPosition: catcherPosition,
+      opponentPosition: runnerPosition,
+      stepSize: catcherStepSize,
+      gameBoard: highlightLegalSquares(gameBoard, catcherPosition, catcherStepSize),
+    });
+  };
 
   handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
     switch (event.key) {
@@ -101,7 +110,7 @@ class Game extends Component<GameProps, State> {
     if (playerPosition.y === 0) {
       return;
     }
-    if (playerPosition.y <= originalPosition.y - this.state.movementSize) {
+    if (playerPosition.y <= originalPosition.y - this.state.stepSize) {
       return;
     }
 
@@ -114,10 +123,10 @@ class Game extends Component<GameProps, State> {
   };
   moveDown = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === this.state.board[0].length - 1) {
+    if (playerPosition.y === this.state.gameBoard[0].length - 1) {
       return;
     }
-    if (playerPosition.y >= originalPosition.y + this.state.movementSize) {
+    if (playerPosition.y >= originalPosition.y + this.state.stepSize) {
       return;
     }
 
@@ -133,7 +142,7 @@ class Game extends Component<GameProps, State> {
     if (playerPosition.x === 0) {
       return;
     }
-    if (playerPosition.x <= originalPosition.x - this.state.movementSize) {
+    if (playerPosition.x <= originalPosition.x - this.state.stepSize) {
       return;
     }
 
@@ -146,10 +155,10 @@ class Game extends Component<GameProps, State> {
   };
   moveRight = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === this.state.board[0].length - 1) {
+    if (playerPosition.x === this.state.gameBoard[0].length - 1) {
       return;
     }
-    if (playerPosition.x >= originalPosition.x + this.state.movementSize) {
+    if (playerPosition.x >= originalPosition.x + this.state.stepSize) {
       return;
     }
 
@@ -162,17 +171,18 @@ class Game extends Component<GameProps, State> {
   };
 
   render() {
-    if (!this.state.board) return null;
     const { cellSize } = this.props;
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
         <div className={style.board}>
-          {this.state.board.map(row => (
-            <Row cells={row} cellSize={cellSize} />
-          ))}
-          <Character position={this.state.playerPosition} cellSize={cellSize} character="fox" />
-          <Character position={this.state.opponentPosition} cellSize={cellSize} character="sheep" />
+          {this.state.gameBoard.length && this.state.gameBoard.map(row => <Row cells={row} cellSize={cellSize} />)}
+          {this.state.playerPosition && (
+            <Character position={this.state.playerPosition} cellSize={cellSize} character="fox" />
+          )}
+          {this.state.opponentPosition && (
+            <Character position={this.state.opponentPosition} cellSize={cellSize} character="sheep" />
+          )}
         </div>
       </div>
     );

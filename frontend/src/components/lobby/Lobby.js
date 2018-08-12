@@ -11,9 +11,14 @@ import style from './Game.css';
 
 type Props = {};
 
+type SimpleRoomType = {
+  name: string,
+  id: string,
+};
+
 type State = {
   socket: Socket,
-  roomNames: Array<string>,
+  rooms: Array<SimpleRoomType>,
 };
 
 class Lobby extends Component<Props, State> {
@@ -24,22 +29,29 @@ class Lobby extends Component<Props, State> {
     socket.on('roomNames', this.initRoomNames);
     socket.on('roomsUpdated', this.updateRoomNames);
 
+    socket.on('startGame', payload => {
+      console.log('Start Game', payload);
+    });
+
+    socket.on('roomFull', payload => {
+      console.log('Room is full. Sorry!', payload);
+    });
+
     this.state = {
       socket,
-      roomNames: [],
+      rooms: [],
     };
   }
 
   initRoomNames = payload => {
-    console.log('TESTESSSs', payload);
     this.setState({
-      roomNames: payload.roomNames,
+      rooms: payload.rooms,
     });
   };
 
   updateRoomNames = payload => {
     this.setState({
-      roomNames: payload.roomNames,
+      rooms: payload.rooms,
     });
   };
 
@@ -48,8 +60,11 @@ class Lobby extends Component<Props, State> {
     this.props.history.push({ pathname: '/game/', state: { createRoom: true } });
   };
 
+  joinRoom = (roomId: string) => {
+    this.state.socket.emit('joinRoom', { roomId });
+  };
+
   render() {
-    console.log(this.state);
     const joinedRoom = this.props.location.pathname.includes('game');
     return (
       <div>
@@ -60,9 +75,11 @@ class Lobby extends Component<Props, State> {
           <div>
             <h3>Rooms</h3>
             <div className={style.roomList}>
-              {this.state.roomNames.map(roomName => (
-                <div key={roomName}>
-                  <Link to="/game">{roomName}</Link>
+              {this.state.rooms.map(roomName => (
+                <div key={roomName.id}>
+                  <Link to="/game" onClick={this.joinRoom.bind(this, roomName.id)}>
+                    {roomName.name}
+                  </Link>
                 </div>
               ))}
             </div>
