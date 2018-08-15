@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4';
-import { createGameState } from '../game/BoardCreator';
+import { createGameState } from './BoardCreator';
 import { randomIntFromInterval } from '../utils/Math';
 
 export const initializeRoom = (socket, name) => {

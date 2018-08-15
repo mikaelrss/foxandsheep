@@ -5,7 +5,8 @@ import http from 'http';
 
 import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
-import { createRoom, disconnect, joinRoom } from './socketadapter/index';
+import { createRoom, disconnect, joinRoom } from './socketadapter/room';
+import { hidePosition, showPosition } from "./socketadapter/playeractions";
 
 const DEFAULT_PORT = 4000;
 
@@ -39,6 +40,9 @@ io.on('connection', socket => {
   socket.on('createRoom', payload => createRoom(socket, io, payload));
   socket.on('joinRoom', payload => joinRoom(socket, io, payload));
 
+  socket.on('showPosition', payload => showPosition(socket, io, payload));
+  socket.on('hidePosition', () => hidePosition(socket, io));
+
   socket.on('disconnect', () => {
     disconnect(socket, io);
   });
@@ -47,7 +51,7 @@ io.on('connection', socket => {
 setInterval(() => {
   cleanRooms();
   console.log(rooms);
-}, 2000);
+}, 20000);
 
 httpServer.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);

@@ -77,11 +77,48 @@ class Game extends Component<GameProps, State> {
 
   componentDidMount() {
     document.addEventListener('keydown', this.handlePlayerMovement);
+    document.addEventListener('keyup', this.handlePlayerActions);
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handlePlayerMovement);
+    document.removeEventListener('keyup', this.handlePlayerActions);
   }
+
+  handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
+    switch (event.key) {
+      case 'ArrowUp':
+        this.moveUp();
+        break;
+      case 'ArrowDown':
+        this.moveDown();
+        break;
+      case 'ArrowLeft':
+        this.moveLeft();
+        break;
+      case 'ArrowRight':
+        this.moveRight();
+        break;
+      case 's':
+      case 'S':
+        if (event.repeat) return;
+        this.state.socket.emit('showPosition', { position: this.state.playerPosition });
+        break;
+      default:
+        return;
+    }
+  };
+
+  handlePlayerActions = (event: SyntheticInputEvent<KeyboardEvent>) => {
+    switch (event.key) {
+      case 's':
+      case 'S':
+        this.state.socket.emit('hidePosition');
+        break;
+      default:
+        return;
+    }
+  };
 
   handleOpponentReady = () => {
     this.setState({
@@ -126,25 +163,6 @@ class Game extends Component<GameProps, State> {
         gameBoard: highlightLegalSquares(gameBoard, playerPosition, stepSize),
       });
     });
-  };
-
-  handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
-    switch (event.key) {
-      case 'ArrowUp':
-        this.moveUp();
-        break;
-      case 'ArrowDown':
-        this.moveDown();
-        break;
-      case 'ArrowLeft':
-        this.moveLeft();
-        break;
-      case 'ArrowRight':
-        this.moveRight();
-        break;
-      default:
-        return;
-    }
   };
 
   moveUp = () => {
@@ -213,7 +231,7 @@ class Game extends Component<GameProps, State> {
   };
 
   render() {
-    const { playerIsCatcher, playerPosition, opponentPosition } = this.state;
+    const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible } = this.state;
     const { cellSize } = this.props;
 
     return (
@@ -229,8 +247,12 @@ class Game extends Component<GameProps, State> {
           {playerPosition && (
             <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
           )}
-          {opponentPosition && (
-            <Character position={opponentPosition} cellSize={cellSize} character={!playerIsCatcher ? 'fox' : 'sheep'} />
+          {opponentVisible && (
+            <Character
+              position={opponentPosition}
+              cellSize={cellSize}
+              character={!playerIsCatcher ? 'fox' : 'sheep'}
+            />
           )}
         </div>
       </div>

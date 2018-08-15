@@ -1,26 +1,12 @@
 import { rooms, roomToNameAndIdMapper } from '../index';
-import { initializeRoom } from './roomCreator';
-
-const remove = (array, element) => {
-  const index = array.indexOf(element);
-  array.splice(index, 1);
-};
-
-const createClientInformation = room => ({
-  roomName: room.name,
-  roomId: room.roomId,
-  gameState: room.gameState,
-  catcher: room.player1,
-  runner: room.player2,
-});
-
-const findCurrentRoom = socket => rooms.find(room => room.player1 === socket.id || room.player2 === socket.id);
+import { initializeRoom } from '../game/roomCreator';
+import { createClientInformation, findCurrentRoom } from "../game/gameUtils";
 
 export const createRoom = (socket, io, payload) => {
 
   const room = initializeRoom(socket, payload.roomName);
   rooms.push(room);
-  socket.join(room.name);
+  socket.join(room.id);
   io.to(socket.id).emit('roomCreated', createClientInformation(room));
   io.emit('roomsUpdated', { rooms: rooms.map(roomToNameAndIdMapper) });
 };
@@ -42,10 +28,10 @@ export const joinRoom = (socket, io, payload) => {
     return;
   }
   requestedRoom.timeWithoutPlayers = undefined;
-  socket.join(requestedRoom.name);
-  io.to(requestedRoom.name).emit('serverStateChange', createClientInformation(requestedRoom));
+  socket.join(requestedRoom.id);
+  io.to(requestedRoom.id).emit('serverStateChange', createClientInformation(requestedRoom));
   if (requestedRoom.player1 != null && requestedRoom.player2 != null) {
-    io.to(requestedRoom.name).emit('startGame', { board: ['test-board'] });
+    io.to(requestedRoom.id).emit('startGame', { board: ['test-board'] });
   }
 };
 

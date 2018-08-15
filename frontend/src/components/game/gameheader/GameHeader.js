@@ -8,7 +8,7 @@ const WaitingForPlayer = () => {
 };
 
 const WaitingForPlayerMove = () => {
-  return <div>Waiting  for move...</div>;
+  return <div>Waiting for move...</div>;
 };
 
 type Props = {
@@ -23,6 +23,7 @@ const GameHeader = ({ gameState }: Props) => {
   console.log(gameState);
   return (
     <div className={style.header}>
+      <div>{gameState.socket.id}</div>
       <div>{gameState.roomName}</div>
       {!gameState.hasOpponentConnected && <WaitingForPlayer />}
       {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
