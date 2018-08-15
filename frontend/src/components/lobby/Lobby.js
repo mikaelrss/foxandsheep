@@ -31,6 +31,8 @@ class Lobby extends Component<Props, State> {
     socket.on('roomNames', this.initRoomNames);
     socket.on('roomsUpdated', this.updateRoomNames);
 
+    socket.on('roomCreated', this.enterRoom);
+
     socket.on('startGame', payload => {
       console.log('Start Game', payload);
     });
@@ -60,14 +62,12 @@ class Lobby extends Component<Props, State> {
   createRoom = () => {
     const roomName = sillyName();
     this.state.socket.emit('createRoom', { roomName: roomName });
-    this.props.history.push({
-      pathname: `/game/:${camelCase(roomName)}`,
-      state: { createRoom: true, roomName: camelCase(roomName) },
-    });
   };
 
-  joinRoom = (roomId: string) => {
-    this.state.socket.emit('joinRoom', { roomId });
+  enterRoom = payload => {
+    this.props.history.push({
+      pathname: `/game/${payload.roomId}`,
+    });
   };
 
   render() {
@@ -75,20 +75,15 @@ class Lobby extends Component<Props, State> {
     return (
       <div>
         <Switch>
-          <Route
-            path="/game"
-            render={props => <Game cellSize={50} socket={this.state.socket} roomName={props.location.state.roomName} />}
-          />
+          <Route path="/game/:roomId" render={() => <Game cellSize={50} socket={this.state.socket} />} />
         </Switch>
         {!joinedRoom && (
           <div>
             <h3>Rooms</h3>
             <div className={style.roomList}>
-              {this.state.rooms.map(roomName => (
-                <div key={roomName.id}>
-                  <Link to={`/game/:${camelCase(roomName.name)}`} onClick={this.joinRoom.bind(this, roomName.id)}>
-                    {roomName.name}
-                  </Link>
+              {this.state.rooms.map(room => (
+                <div key={room.id}>
+                  <Link to={`/game/${room.id}`}>{room.name}</Link>
                 </div>
               ))}
             </div>
