@@ -167,7 +167,7 @@ class Game extends Component<GameProps, State> {
 
   moveUp = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === 0) {
+    if (playerPosition.y <= 0) {
       return;
     }
     if (playerPosition.y <= originalPosition.y - this.state.stepSize) {
@@ -183,7 +183,7 @@ class Game extends Component<GameProps, State> {
   };
   moveDown = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.y === this.state.gameBoard[0].length - 1) {
+    if (playerPosition.y >= this.state.gameBoard[0].row.length - 1) {
       return;
     }
     if (playerPosition.y >= originalPosition.y + this.state.stepSize) {
@@ -199,7 +199,7 @@ class Game extends Component<GameProps, State> {
   };
   moveLeft = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === 0) {
+    if (playerPosition.x <= 0) {
       return;
     }
     if (playerPosition.x <= originalPosition.x - this.state.stepSize) {
@@ -215,7 +215,7 @@ class Game extends Component<GameProps, State> {
   };
   moveRight = () => {
     const { playerPosition, originalPosition } = this.state;
-    if (playerPosition.x === this.state.gameBoard[0].length - 1) {
+    if (playerPosition.x >= this.state.gameBoard[0].row.length - 1) {
       return;
     }
     if (playerPosition.x >= originalPosition.x + this.state.stepSize) {
@@ -248,11 +248,7 @@ class Game extends Component<GameProps, State> {
             <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
           )}
           {opponentVisible && (
-            <Character
-              position={opponentPosition}
-              cellSize={cellSize}
-              character={!playerIsCatcher ? 'fox' : 'sheep'}
-            />
+            <Character position={opponentPosition} cellSize={cellSize} character={!playerIsCatcher ? 'fox' : 'sheep'} />
           )}
         </div>
       </div>

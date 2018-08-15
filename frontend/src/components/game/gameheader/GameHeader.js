@@ -20,7 +20,6 @@ type Props = {
 };
 
 const GameHeader = ({ gameState }: Props) => {
-  console.log(gameState);
   return (
     <div className={style.header}>
       <div>{gameState.socket.id}</div>

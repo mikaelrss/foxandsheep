@@ -29,31 +29,15 @@ class Character extends Component<Props, State> {
   render() {
     const { cellSize, position, character } = this.props;
     return (
-      <Spring
-        from={{
-          top: this.state.position.y,
-          left: this.state.position.x,
+      <div
+        className={classNames(css.character, character)}
+        style={{
+          top: `${position.y * cellSize}px`,
+          left: `${position.x * cellSize}px`,
+          height: `${cellSize - 2}px`,
+          width: `${cellSize - 2}px`,
         }}
-        to={{
-          top: position.y,
-          left: position.x,
-        }}
-      >
-        {({ top, left, rotation }) => {
-          return (
-            <div
-              className={classNames(css.character, character)}
-              style={{
-                top: `${top * cellSize}px`,
-                left: `${left * cellSize}px`,
-                height: `${cellSize - 2}px`,
-                width: `${cellSize - 2}px`,
-                transform: `rotate(${rotation}deg)`,
-              }}
-            />
-          );
-        }}
-      </Spring>
+      />
     );
   }
 }

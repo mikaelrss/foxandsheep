@@ -75,7 +75,7 @@ class Lobby extends Component<Props, State> {
     return (
       <div>
         <Switch>
-          <Route path="/game/:roomId" render={() => <Game cellSize={50} socket={this.state.socket} />} />
+          <Route path="/game/:roomId" render={() => <Game cellSize={40} socket={this.state.socket} />} />
         </Switch>
         {!joinedRoom && (
           <div>

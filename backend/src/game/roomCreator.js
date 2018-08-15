@@ -9,6 +9,6 @@ export const initializeRoom = (socket, name) => {
     player1: playerIsCather ? socket.id : null,
     player2: !playerIsCather ? socket.id : null,
     roomId: uuid(),
-    gameState: createGameState(10, playerIsCather),
+    gameState: createGameState(15, playerIsCather),
   };
 };

@@ -5,6 +5,3 @@
 :local(.content) {
   margin-left: auto;
   margin-right: auto; }
-  @media screen and (min-width: 1200px) {
-    :local(.content) {
-      max-width: 600px; } }
