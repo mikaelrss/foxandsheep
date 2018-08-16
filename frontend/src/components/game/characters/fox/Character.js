@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Spring } from 'react-spring';
 import classNames from 'classnames';
 
 import type { CharacterType, PositionType } from '../../../../types';

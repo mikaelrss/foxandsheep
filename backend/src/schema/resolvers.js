@@ -1,4 +1,4 @@
-import getOrCreateBoard, { createBoardRows } from "../game/BoardCreator";
+import getOrCreateBoard, { createBoardRows } from "../game/boardCreator";
 const projectSettings = require('../../package.json');
 
 const resolvers = {

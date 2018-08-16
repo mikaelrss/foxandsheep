@@ -11,6 +11,7 @@ import Character from './characters/fox/Character';
 import GameHeader from './gameheader/GameHeader';
 
 import style from './Game.css';
+import MoveReadyCounter from "./movereadycounter/MoveReadyCounter";
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
   const insideX = cellPosition.x >= originalPosition.x - step && cellPosition.x <= originalPosition.x + step;
@@ -35,11 +36,14 @@ type State = {
   opponentPosition: PositionType,
   opponentVisible: boolean,
   hasOpponentMadeMove: boolean,
+  hasPlayerMadeMove: boolean,
   hasOpponentConnected: boolean,
   cellSize: number,
   stepSize: number,
   playerIsCatcher: boolean,
   character: CharacterType,
+  movesMade: number,
+  readyToShowMoves: boolean,
 };
 
 type GameProps = {
@@ -56,8 +60,11 @@ class Game extends Component<GameProps, State> {
       gameBoard: [],
       socket: props.socket,
       hasOpponentMadeMove: false,
+      hasPlayerMadeMove: false,
       hasOpponentConnected: false,
       opponentVisible: false,
+      movesMade: 0,
+      readyToShowMoves: false,
     };
 
     // Init
@@ -68,7 +75,7 @@ class Game extends Component<GameProps, State> {
     props.socket.on('opponentReady', this.handleOpponentReady);
     props.socket.on('opponentShowPosition', this.handleOpponentShowPosition);
     props.socket.on('opponentHidePosition', this.handleOpponentHidePosition);
-    props.socket.on('movesCommited', this.handleMovesCommited);
+    props.socket.on('turnFinished', this.handleTurnFinished);
 
     if (props.match.params && this.props.match.params.roomId) {
       props.socket.emit('joinRoom', { roomId: props.match.params.roomId });
@@ -86,7 +93,7 @@ class Game extends Component<GameProps, State> {
   }
 
   handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
-    switch (event.key) {
+    switch (event.code) {
       case 'ArrowUp':
         this.moveUp();
         break;
@@ -99,9 +106,9 @@ class Game extends Component<GameProps, State> {
       case 'ArrowRight':
         this.moveRight();
         break;
-      case 's':
-      case 'S':
+      case 'KeyS':
         if (event.repeat) return;
+        console.log(this.state.playerPosition);
         this.state.socket.emit('showPosition', { position: this.state.playerPosition });
         break;
       default:
@@ -110,14 +117,32 @@ class Game extends Component<GameProps, State> {
   };
 
   handlePlayerActions = (event: SyntheticInputEvent<KeyboardEvent>) => {
-    switch (event.key) {
-      case 's':
-      case 'S':
+    switch (event.code) {
+      case 'KeyS':
         this.state.socket.emit('hidePosition');
+        break;
+      case 'Space':
+        this.setState({
+          hasPlayerMadeMove: true,
+        });
+        this.state.socket.emit('commitMove', { position: this.state.playerPosition });
         break;
       default:
         return;
     }
+  };
+
+  handleTurnFinished = payload => {
+    this.setState({ readyToShowMoves: true });
+    setTimeout(() => {
+      this.setState({
+        hasOpponentMadeMove: false,
+        hasPlayerMadeMove: false,
+        readyToShowMoves: false,
+        movesMade: this.state.movesMade + 1,
+      });
+      this.handleServerStateChange(payload);
+    }, 3000);
   };
 
   handleOpponentReady = () => {
@@ -166,6 +191,7 @@ class Game extends Component<GameProps, State> {
   };
 
   moveUp = () => {
+    if (this.state.hasPlayerMadeMove) return;
     const { playerPosition, originalPosition } = this.state;
     if (playerPosition.y <= 0) {
       return;
@@ -182,6 +208,8 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveDown = () => {
+    if (this.state.hasPlayerMadeMove) return;
+
     const { playerPosition, originalPosition } = this.state;
     if (playerPosition.y >= this.state.gameBoard[0].row.length - 1) {
       return;
@@ -198,6 +226,8 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveLeft = () => {
+    if (this.state.hasPlayerMadeMove) return;
+
     const { playerPosition, originalPosition } = this.state;
     if (playerPosition.x <= 0) {
       return;
@@ -214,6 +244,8 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveRight = () => {
+    if (this.state.hasPlayerMadeMove) return;
+
     const { playerPosition, originalPosition } = this.state;
     if (playerPosition.x >= this.state.gameBoard[0].row.length - 1) {
       return;
@@ -234,10 +266,13 @@ class Game extends Component<GameProps, State> {
     const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible } = this.state;
     const { cellSize } = this.props;
 
+    console.log(playerPosition);
+
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
         <GameHeader gameState={this.state} />
+        {this.state.readyToShowMoves && <MoveReadyCounter />}
         <div className={style.board}>
           {this.state.gameBoard &&
             this.state.gameBoard.length &&

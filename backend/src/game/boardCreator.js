@@ -94,5 +94,9 @@ export const createGameState = (rowNumber, playerIsCatcher) => {
     catcherPosition: playerPositions[0],
     runnerPosition: playerPositions[1],
     playerIsCatcher,
+    turn: {
+      catcherDone: false,
+      runnerDone: false,
+    }
   };
 };
