@@ -5,8 +5,8 @@ import {
   findCurrentRoom,
   playerIsCatcher,
   resetTurn,
-  turnFinished,
-} from '../game/gameUtils';
+  turnFinished, moveIsValid
+} from "../game/gameUtils";
 
 export const showPosition = (socket, io, payload) => {
   const opponent = findCurrentOpponent(socket);
@@ -21,6 +21,7 @@ export const hidePosition = (socket, io) => {
 };
 
 export const commitPosition = (socket, io, payload) => {
+  if(!moveIsValid(socket, io, payload)) return;
   const room = findCurrentRoom(socket);
   if (playerIsCatcher(socket)) {
     room.gameState.catcherPosition = payload.position;

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" line="29" mnemonic="1" />
+    <bookmark url="file://$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" line="30" mnemonic="1" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d96ca791-7e2f-4c56-aa65-21fc341aeb01" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/game/BoardCreator.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/game/BoardCreator.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/game/gameUtils.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/game/gameUtils.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/game/roomCreator.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/game/roomCreator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/socketadapter/playeractions.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/socketadapter/playeractions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/socketadapter/room.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/socketadapter/room.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/game/Game.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/Game.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -43,12 +43,12 @@
           <entry key="flowconfig" value="1" />
           <entry key="gitignore" value="5" />
           <entry key="html" value="1" />
-          <entry key="js" value="72" />
+          <entry key="js" value="77" />
           <entry key="json" value="8" />
           <entry key="lock" value="1" />
           <entry key="log" value="1" />
           <entry key="md" value="3" />
-          <entry key="scss" value="23" />
+          <entry key="scss" value="25" />
           <entry key="ts" value="1" />
         </counts>
       </usages-collector>
@@ -57,10 +57,10 @@
           <entry key="CSS" value="5" />
           <entry key="HTML" value="1" />
           <entry key="JSON" value="11" />
-          <entry key="JavaScript" value="72" />
+          <entry key="JavaScript" value="77" />
           <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="8" />
-          <entry key="SCSS" value="23" />
+          <entry key="SCSS" value="25" />
           <entry key="TypeScript" value="1" />
           <entry key="yarn.lock" value="1" />
         </counts>
@@ -70,18 +70,18 @@
           <entry key="babelrc" value="33" />
           <entry key="gitignore" value="38" />
           <entry key="html" value="1" />
-          <entry key="js" value="32884" />
+          <entry key="js" value="34700" />
           <entry key="json" value="812" />
-          <entry key="scss" value="1622" />
+          <entry key="scss" value="1828" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="1" />
           <entry key="JSON" value="845" />
-          <entry key="JavaScript" value="32884" />
+          <entry key="JavaScript" value="34700" />
           <entry key="PLAIN_TEXT" value="38" />
-          <entry key="SCSS" value="1622" />
+          <entry key="SCSS" value="1828" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
@@ -93,23 +93,23 @@
     </session>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.48840886">
+    <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/backend/src/socketadapter/room.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="12" column="50" lean-forward="true" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
+                <state relative-caret-position="345">
+                  <caret line="23" column="54" selection-start-line="23" selection-start-column="54" selection-end-line="23" selection-end-column="54" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/backend/src/socketadapter/playeractions.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+                <state relative-caret-position="270">
+                  <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
                 </state>
               </provider>
             </entry>
@@ -123,20 +123,20 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/backend/src/index.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="713">
-                  <caret line="58" column="10" lean-forward="true" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
+                <state relative-caret-position="578">
+                  <caret line="49" column="42" lean-forward="true" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/backend/src/game/BoardCreator.js">
+            <entry file="file://$PROJECT_DIR$/backend/src/game/boardCreator.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="669">
-                  <caret line="95" column="20" lean-forward="true" selection-start-line="95" selection-start-column="20" selection-end-line="95" selection-end-column="20" />
+                <state relative-caret-position="360">
+                  <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -144,8 +144,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/backend/src/game/gameUtils.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+                <state relative-caret-position="443">
+                  <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
                 </state>
               </provider>
             </entry>
@@ -153,21 +153,12 @@
         </leaf>
       </split-first>
       <split-second>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+        <leaf>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/frontend/src/components/RootContainer.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="165">
-                  <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/frontend/src/components/game/Game.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="485">
-                  <caret line="123" column="19" lean-forward="true" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="19" />
+                <state relative-caret-position="529">
+                  <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
                 </state>
               </provider>
             </entry>
@@ -175,8 +166,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state>
-                  <caret selection-end-line="22" selection-end-column="35" />
+                <state relative-caret-position="218">
+                  <caret line="23" column="66" lean-forward="true" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="66" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.scss">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="60">
+                  <caret line="4" column="17" lean-forward="true" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -184,26 +184,26 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="270">
-                  <caret line="18" column="4" lean-forward="true" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+                <state relative-caret-position="150">
+                  <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/frontend/src/components/lobby/Lobby.js">
+            <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="130">
-                  <caret line="39" column="38" lean-forward="true" selection-start-line="39" selection-start-column="38" selection-end-line="39" selection-end-column="38" />
+                <state relative-caret-position="105">
+                  <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/frontend/src/components/app/App.js">
+            <entry file="file://$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="45">
-                  <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
+                <state relative-caret-position="754">
+                  <caret line="55" column="15" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="55" selection-end-column="15" />
                 </state>
               </provider>
             </entry>
@@ -228,12 +228,13 @@
       <find>player1</find>
       <find>player2</find>
       <find>runnerId</find>
+      <find>opponentVisible</find>
     </findStrings>
     <replaceStrings>
       <replace />
       <replace>catcherId</replace>
-      <replace>runnerId</replace>
       <replace>runner.id</replace>
+      <replace>runnerId</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -242,7 +243,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/frontend/src/styles/constants.scss" />
         <option value="$PROJECT_DIR$/frontend/.gitignore" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/frontend/public/index.html" />
@@ -272,7 +272,6 @@
         <option value="$PROJECT_DIR$/frontend/src/components/gamecontainer/GameTemp.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/game/row/Row.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/game/cell/Cell.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss" />
         <option value="$PROJECT_DIR$/frontend/src/types.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/app/App.js" />
         <option value="$PROJECT_DIR$/frontend/src/redux/Reducers.js" />
@@ -282,17 +281,19 @@
         <option value="$PROJECT_DIR$/frontend/src/components/game/GameSelector.js" />
         <option value="$PROJECT_DIR$/backend/src/socketadapter/index.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/RootContainer.scss" />
-        <option value="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/lobby/Lobby.js" />
         <option value="$PROJECT_DIR$/backend/src/game/BoardCreator.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/game/Game.js" />
-        <option value="$PROJECT_DIR$/backend/src/game/gameUtils.js" />
-        <option value="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" />
         <option value="$PROJECT_DIR$/backend/src/game/roomCreator.js" />
-        <option value="$PROJECT_DIR$/backend/src/socketadapter/playeractions.js" />
         <option value="$PROJECT_DIR$/backend/src/socketadapter/room.js" />
         <option value="$PROJECT_DIR$/backend/src/index.js" />
+        <option value="$PROJECT_DIR$/backend/src/game/gameUtils.js" />
+        <option value="$PROJECT_DIR$/backend/src/socketadapter/playeractions.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.scss" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/game/Game.js" />
       </list>
     </option>
   </component>
@@ -514,18 +515,18 @@
       <workItem from="1533996512053" duration="11533000" />
       <workItem from="1534071990784" duration="7506000" />
       <workItem from="1534080584318" duration="3220000" />
-      <workItem from="1534352487635" duration="14901000" />
+      <workItem from="1534352487635" duration="17816000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71947000" />
+    <option name="totallyTimeSpent" value="74862000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14646997" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.29700854" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -557,13 +558,6 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/RootContainer.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/components/shared/spinner/Spinner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -683,13 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/frontend/src/components/game/cell/Cell.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -749,13 +736,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/schema/resolvers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
@@ -784,10 +764,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js">
+    <entry file="file://$PROJECT_DIR$/backend/src/game/roomCreator.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="4" lean-forward="true" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
+        <state relative-caret-position="210">
+          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/game/boardCreator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="19" lean-forward="true" selection-start-line="24" selection-start-column="19" selection-end-line="24" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/RootContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
         </state>
       </provider>
     </entry>
@@ -798,73 +792,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="22" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/game/gameUtils.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="38" lean-forward="true" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/Game.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="123" column="19" lean-forward="true" selection-start-line="123" selection-start-column="19" selection-end-line="123" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js">
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/app/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
-          <caret line="3" column="36" lean-forward="true" selection-start-line="3" selection-start-column="36" selection-end-line="3" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/frontend/src/components/RootContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/game/BoardCreator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="669">
-          <caret line="95" column="20" lean-forward="true" selection-start-line="95" selection-start-column="20" selection-end-line="95" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/game/roomCreator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/backend/src/socketadapter/playeractions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="12" lean-forward="true" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <caret line="3" column="44" selection-start-line="3" selection-start-column="44" selection-end-line="3" selection-end-column="44" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/socketadapter/room.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="50" lean-forward="true" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
+        <state relative-caret-position="345">
+          <caret line="23" column="54" selection-start-line="23" selection-start-column="54" selection-end-line="23" selection-end-column="54" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="713">
-          <caret line="58" column="10" lean-forward="true" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
+        <state relative-caret-position="578">
+          <caret line="49" column="42" lean-forward="true" selection-start-line="49" selection-start-column="42" selection-end-line="49" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/game/gameUtils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="40" column="13" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/characters/fox/Character.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="55" column="15" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="55" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/backend/src/socketadapter/playeractions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="37" selection-start-line="18" selection-start-column="37" selection-end-line="18" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" lean-forward="true" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/movereadycounter/MoveReadyCounter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="23" column="66" lean-forward="true" selection-start-line="23" selection-start-column="66" selection-end-line="23" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/gameheader/GameHeader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/frontend/src/components/game/Game.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="529">
+          <caret line="66" column="29" selection-start-line="66" selection-start-column="29" selection-end-line="66" selection-end-column="29" />
         </state>
       </provider>
     </entry>

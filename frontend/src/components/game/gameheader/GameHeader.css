@@ -1,2 +1,4 @@
 :local(.header) {
   margin-bottom: 20px; }
+  :local(.header) .opponentStatus {
+    height: 70px; }

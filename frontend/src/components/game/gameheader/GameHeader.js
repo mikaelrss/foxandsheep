@@ -24,8 +24,10 @@ const GameHeader = ({ gameState }: Props) => {
     <div className={style.header}>
       <div>{gameState.socket.id}</div>
       <div>{gameState.roomName}</div>
-      {!gameState.hasOpponentConnected && <WaitingForPlayer />}
-      {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
+      <div className="opponentStatus">
+        {!gameState.hasOpponentConnected && <WaitingForPlayer />}
+        {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
+      </div>
     </div>
   );
 };

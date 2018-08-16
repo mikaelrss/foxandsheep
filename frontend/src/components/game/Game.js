@@ -11,7 +11,7 @@ import Character from './characters/fox/Character';
 import GameHeader from './gameheader/GameHeader';
 
 import style from './Game.css';
-import MoveReadyCounter from "./movereadycounter/MoveReadyCounter";
+import MoveReadyCounter from './movereadycounter/MoveReadyCounter';
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
   const insideX = cellPosition.x >= originalPosition.x - step && cellPosition.x <= originalPosition.x + step;
@@ -62,7 +62,7 @@ class Game extends Component<GameProps, State> {
       hasOpponentMadeMove: false,
       hasPlayerMadeMove: false,
       hasOpponentConnected: false,
-      opponentVisible: false,
+      opponentVisible: true,
       movesMade: 0,
       readyToShowMoves: false,
     };
@@ -76,6 +76,8 @@ class Game extends Component<GameProps, State> {
     props.socket.on('opponentShowPosition', this.handleOpponentShowPosition);
     props.socket.on('opponentHidePosition', this.handleOpponentHidePosition);
     props.socket.on('turnFinished', this.handleTurnFinished);
+
+    props.socket.on('illegalMove', this.handleIllegalMove);
 
     if (props.match.params && this.props.match.params.roomId) {
       props.socket.emit('joinRoom', { roomId: props.match.params.roomId });
@@ -108,7 +110,6 @@ class Game extends Component<GameProps, State> {
         break;
       case 'KeyS':
         if (event.repeat) return;
-        console.log(this.state.playerPosition);
         this.state.socket.emit('showPosition', { position: this.state.playerPosition });
         break;
       default:
@@ -122,27 +123,15 @@ class Game extends Component<GameProps, State> {
         this.state.socket.emit('hidePosition');
         break;
       case 'Space':
-        this.setState({
-          hasPlayerMadeMove: true,
-        });
-        this.state.socket.emit('commitMove', { position: this.state.playerPosition });
+        this.handleCommit();
         break;
       default:
         return;
     }
   };
 
-  handleTurnFinished = payload => {
-    this.setState({ readyToShowMoves: true });
-    setTimeout(() => {
-      this.setState({
-        hasOpponentMadeMove: false,
-        hasPlayerMadeMove: false,
-        readyToShowMoves: false,
-        movesMade: this.state.movesMade + 1,
-      });
-      this.handleServerStateChange(payload);
-    }, 3000);
+  handleRoomNotFound = () => {
+    console.log('Room could not be found');
   };
 
   handleOpponentReady = () => {
@@ -164,8 +153,31 @@ class Game extends Component<GameProps, State> {
     });
   };
 
-  handleRoomNotFound = () => {
-    console.log('Room could not be found');
+  handleCommit = () => {
+    this.setState({
+      hasPlayerMadeMove: true,
+    });
+    this.state.socket.emit('commitMove', { position: this.state.playerPosition });
+  };
+
+  handleTurnFinished = payload => {
+    this.setState({ readyToShowMoves: true });
+    setTimeout(() => {
+      this.setState({
+        hasOpponentMadeMove: false,
+        hasPlayerMadeMove: false,
+        readyToShowMoves: false,
+        movesMade: this.state.movesMade + 1,
+      });
+      this.handleServerStateChange(payload);
+    }, 3000);
+  };
+
+  handleIllegalMove = originalPosition => {
+    this.setState({
+      hasPlayerMadeMove: false,
+      playerPosition: originalPosition,
+    });
   };
 
   handleServerStateChange = (payload: ClientInformationType) => {
@@ -282,7 +294,7 @@ class Game extends Component<GameProps, State> {
           {playerPosition && (
             <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
           )}
-          {opponentVisible && (
+          {opponentPosition && opponentVisible && (
             <Character position={opponentPosition} cellSize={cellSize} character={!playerIsCatcher ? 'fox' : 'sheep'} />
           )}
         </div>

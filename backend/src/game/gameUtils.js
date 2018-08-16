@@ -19,16 +19,40 @@ export const playerIsCatcher = socket => {
   return opponent !== room.catcher.id;
 };
 
-export const turnFinished = room => {
-  console.log(room);
-  return room.gameState.turn.catcherDone && room.gameState.turn.runnerDone;
-};
+export const turnFinished = room => room.gameState.turn.catcherDone && room.gameState.turn.runnerDone;
 
 export const resetTurn = room => {
   room.gameState.turn = {
     runnerDone: false,
     catcherDone: false,
   };
+};
+
+const findCurrentPosition = (socket, room) => {
+  if (playerIsCatcher(socket)) return room.gameState.catcherPosition;
+  return room.gameState.runnerPosition;
+};
+
+const findCurrentStepSize = (socket, room) => {
+  if (playerIsCatcher(socket)) return room.gameState.catcherStepSize;
+  return room.gameState.runnerStepSize;
+};
+
+export const moveIsValid = (socket, io, { position }) => {
+  const room = findCurrentRoom(socket);
+  const myPosition = findCurrentPosition(socket, room);
+  const stepSize = findCurrentStepSize(socket, room);
+
+  const outsideLegalMovesX = position.x > myPosition.x + stepSize || position.x < myPosition.x - stepSize;
+  const outsideLegalMovesY = position.y > myPosition.y + stepSize || position.y < myPosition.y - stepSize;
+  const outsideBoardX = position.x < 0 || position.x > room.gameState.gameBoard.length - 1;
+  const outsideBoardY = position.y < 0 || position.y > room.gameState.gameBoard.length - 1;
+
+  if (outsideBoardX || outsideBoardY || outsideLegalMovesX || outsideLegalMovesY) {
+    io.to(socket.id).emit('illegalMove', myPosition);
+    return false;
+  }
+  return true;
 };
 
 export const createClientInformation = room => ({
