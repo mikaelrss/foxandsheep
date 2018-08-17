@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Spring } from 'react-spring';
+import { Spring, config } from 'react-spring';
 import classNames from 'classnames';
 
 import style from './MoveReadyCounter.css';
@@ -44,19 +44,22 @@ class MoveReadyCounter extends Component<Props, State> {
 
     return (
       <Spring
+        config={config.wobbly}
         from={{
           opacity: startAnimationState ? 0 : 1,
+          scale: startAnimationState ? 1 : 3,
         }}
         to={{
           opacity: startAnimationState ? 1 : 0,
         }}
       >
-        {({ opacity }) => {
+        {({ opacity, scale }) => {
           return (
             <div
               className={classNames(style.secondsPopup)}
               style={{
                 opacity,
+                transform: `scale(${scale})`,
               }}
             >
               {secondsToStart}

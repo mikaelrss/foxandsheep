@@ -1,6 +1,10 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+
+import type { Socket } from 'socket.io-client';
+
 import style from './GameHeader.css';
 
 const WaitingForPlayer = () => {
@@ -17,19 +21,34 @@ type Props = {
     hasOpponentConnected: boolean,
     hasOpponentMadeMove: boolean,
   },
+  socket: Socket,
 };
 
-const GameHeader = ({ gameState }: Props) => {
-  return (
-    <div className={style.header}>
-      <div>{gameState.socket.id}</div>
-      <div>{gameState.roomName}</div>
-      <div className="opponentStatus">
-        {!gameState.hasOpponentConnected && <WaitingForPlayer />}
-        {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
+class GameHeader extends Component<Props> {
+  constructor(props) {
+    super(props);
+    props.socket.on('opponentFoundGrass', this.handleOpponentFoundGrass);
+  }
+
+  handleOpponentFoundGrass = () => {
+    console.log("TSATS");
+    return toast("wow");
+  }
+
+  render() {
+    const { gameState } = this.props;
+    return (
+      <div className={style.header}>
+        <div>{gameState.socket.id}</div>
+        <div>{gameState.roomName}</div>
+        <div className="opponentStatus">
+          {!gameState.hasOpponentConnected && <WaitingForPlayer />}
+          {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
+        </div>
+        <div>There are {gameState.grassPositions.length} pieces left for runner to find</div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default GameHeader;

@@ -1,6 +1,10 @@
-import { rooms } from '../index';
+import { rooms, roomToNameAndIdMapper } from '../index';
 
 export const OPPONENT_NOT_FOUND = 'OPPONENT_NOT_FOUND';
+
+const removeElementFromArray = (array, element) => {
+  array.splice(array.indexOf(element), 1);
+};
 
 export const findCurrentRoom = socket =>
   rooms.find(room => room.catcher.id === socket.id || room.runner.id === socket.id);
@@ -26,6 +30,37 @@ export const resetTurn = room => {
     runnerDone: false,
     catcherDone: false,
   };
+};
+
+export const emitIfRunnerFoundGrass = (socket, io, { gameState }, runnerPosition) => {
+  const foundPosition = gameState.grassPositions.find(
+    grassPos => runnerPosition.x === grassPos.x && runnerPosition.y === grassPos.y
+  );
+  if (foundPosition) {
+    removeElementFromArray(gameState.grassPositions, foundPosition);
+    io.to(findCurrentOpponent(socket)).emit('opponentFoundGrass');
+  }
+};
+
+export const emitWinAndLossIfGameIsOver = (socket, io, room) => {
+  const { catcherPosition, runnerPosition, grassPositions } = room.gameState;
+
+  if (catcherPosition.x === runnerPosition.x && catcherPosition.y === runnerPosition.y) {
+    io.to(room.catcher.id).emit('gameWon');
+    io.to(room.runner.id).emit('gameLost');
+
+    removeElementFromArray(rooms, room);
+    io.emit('roomsUpdated', { rooms: rooms.map(roomToNameAndIdMapper) });
+    return;
+  }
+
+  if (grassPositions.length === 0) {
+    io.to(room.catcher.id).emit('gameLost');
+    io.to(room.runner.id).emit('gameWon');
+
+    removeElementFromArray(rooms, room);
+    io.emit('roomsUpdated', { rooms: rooms.map(roomToNameAndIdMapper) });
+  }
 };
 
 const findCurrentPosition = (socket, room) => {

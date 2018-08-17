@@ -1,10 +1,9 @@
 :local(.secondsPopup) {
-  font-size: 70px;
+  font-size: 90px;
   position: absolute;
   z-index: 2;
-  color: #12cb79;
-  height: 50px;
-  width: 50px;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%); }
+  color: #12ca75;
+  height: 90px;
+  width: 90px;
+  left: calc(50% - 45px);
+  top: calc(50% - 45px); }

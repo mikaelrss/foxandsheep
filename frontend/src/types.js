@@ -32,4 +32,8 @@ export type PositionType = {
   y: number,
 };
 
+export type PositionWithKey = PositionType & {
+  key: string,
+};
+
 export type CharacterType = 'fox' | 'sheep';

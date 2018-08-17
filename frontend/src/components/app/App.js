@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { PersistGate } from 'redux-persist/es/integration/react';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { persistStore } from 'redux-persist';
 

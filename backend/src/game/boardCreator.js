@@ -25,24 +25,22 @@ const createGameBoard = rowNumber => {
   return gameBoard;
 };
 
-const populateBoardWithGrass = gameBoard => {
+const generateGrassPositions = (gameBoard, numberOfGrass) => {
   const positions = [];
 
   const upperBoardBound = gameBoard.length;
-  while (positions.length < upperBoardBound) {
+  while (positions.length < numberOfGrass) {
     const positionCandidate = {
       x: randomIntFromInterval(0, upperBoardBound - 1),
       y: randomIntFromInterval(0, upperBoardBound - 1),
+      key: shortId.generate(),
     };
     if (!positions.some(position => position.x === positionCandidate.x && position.y === positionCandidate.y)) {
       positions.push(positionCandidate);
     }
   }
-  const populatedBoard = [...gameBoard];
-  positions.forEach(position => {
-    populatedBoard[position.x].row[position.y].grass = true;
-  });
-  return populatedBoard;
+
+  return positions;
 };
 
 const checkIfInsideCatcherRange = (position, positionCandidate, catcherRange) => {
@@ -82,21 +80,22 @@ export const createGameState = (rowNumber, playerIsCatcher) => {
   if (!rowNumber) throw new Error('No number of row was specified');
   const gameBoard = createGameBoard(rowNumber);
 
-  const playerPositions = createPlayerPositions(gameBoard, 3);
+  const playerPositions = createPlayerPositions(gameBoard, 1);
 
-  populateBoardWithGrass(gameBoard);
+  const grassPositions = generateGrassPositions(gameBoard, 3);
   placePlayersOnBoard(gameBoard, playerPositions);
 
   return {
     gameBoard,
+    grassPositions,
     catcherStepSize: 3,
-    runnerStepSize: 2,
+    runnerStepSize: 10,
     catcherPosition: playerPositions[0],
     runnerPosition: playerPositions[1],
     playerIsCatcher,
     turn: {
       catcherDone: false,
       runnerDone: false,
-    }
+    },
   };
 };

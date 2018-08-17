@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Spring } from 'react-spring';
+import { Spring, config } from 'react-spring';
 import classNames from 'classnames';
 
 import type { CharacterType, PositionType } from '../../../../types';
@@ -31,6 +31,7 @@ class Character extends Component<Props, State> {
 
     return (
       <Spring
+        config={config.stiff}
         from={{
           top: this.state.position.y,
           left: this.state.position.x,
@@ -47,8 +48,8 @@ class Character extends Component<Props, State> {
               style={{
                 top: `${top * cellSize}px`,
                 left: `${left * cellSize}px`,
-                height: `${cellSize - 2}px`,
-                width: `${cellSize - 2}px`,
+                height: `${cellSize - 1}px`,
+                width: `${cellSize - 1}px`,
               }}
             />
           );

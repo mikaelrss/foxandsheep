@@ -3,7 +3,7 @@ import { SET_GAME_STATE } from './GameActions';
 const INITIAL_STATE = {
   'default-client': {
     roomName: 'default-room',
-    originalPosition: {},
+    originalPlayerPosition: {},
     playerPosition: {},
     opponentPosition: {},
     stepSize: 0,

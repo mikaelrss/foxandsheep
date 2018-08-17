@@ -6,11 +6,7 @@ import http from 'http';
 import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
 import { createRoom, disconnect, joinRoom } from './socketadapter/room';
-import {
-  commitPosition,
-  hidePosition,
-  showPosition
-} from "./socketadapter/playeractions";
+import { commitPosition, hidePosition, showPosition } from './socketadapter/playeractions';
 
 const DEFAULT_PORT = 4000;
 
@@ -47,7 +43,7 @@ io.on('connection', socket => {
   socket.on('showPosition', payload => showPosition(socket, io, payload));
   socket.on('hidePosition', () => hidePosition(socket, io));
 
-  socket.on('commitMove', payload=> commitPosition(socket, io, payload));
+  socket.on('commitMove', payload => commitPosition(socket, io, payload));
 
   socket.on('disconnect', () => {
     disconnect(socket, io);
