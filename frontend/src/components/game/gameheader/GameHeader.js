@@ -24,6 +24,14 @@ type Props = {
   socket: Socket,
 };
 
+const Msg = ({ closeToast }) => (
+  <div>
+    Lorem ipsum dolor
+    <button>Retry</button>
+    <button onClick={closeToast}>Close</button>
+  </div>
+)
+
 class GameHeader extends Component<Props> {
   constructor(props) {
     super(props);
@@ -31,9 +39,9 @@ class GameHeader extends Component<Props> {
   }
 
   handleOpponentFoundGrass = () => {
-    console.log("TSATS");
-    return toast("wow");
-  }
+    console.log('TSATS');
+    return toast(<Msg/>);
+  };
 
   render() {
     const { gameState } = this.props;
@@ -46,6 +54,7 @@ class GameHeader extends Component<Props> {
           {gameState.hasOpponentConnected && !gameState.hasOpponentMadeMove && <WaitingForPlayerMove />}
         </div>
         <div>There are {gameState.grassPositions.length} pieces left for runner to find</div>
+        <ToastContainer />
       </div>
     );
   }

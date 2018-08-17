@@ -10,6 +10,7 @@ import {
   emitIfRunnerFoundGrass,
   emitWinAndLossIfGameIsOver,
 } from '../game/gameUtils';
+import { rooms } from '../index';
 
 export const showPosition = (socket, io, payload) => {
   const opponent = findCurrentOpponent(socket);
@@ -41,4 +42,6 @@ export const commitPosition = (socket, io, payload) => {
     emitWinAndLossIfGameIsOver(socket, io, room);
     resetTurn(room);
   }
+
+  console.log(rooms);
 };
