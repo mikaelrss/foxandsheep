@@ -4,11 +4,13 @@ node_js:
 cache:
   directories:
     - "node_modules"
+    - "backend/node_modules"
+    - "frontend/node_modules"
 script: npm test
 before_deploy: npm i now --no-save
 deploy:
   provider: script
-  script: now --token $NOW_TOKEN && now alias
+  script: now --token $NOW_TOKEN --public && now alias
   skip_cleanup: true
   on:
     master: true
