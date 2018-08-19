@@ -3,6 +3,12 @@
   "alias": "sheep",
   "files": [
     "backend/dist",
-    "frontend/build"
+    "backend/yarn.lock",
+    "backend/package.json",
+    "frontend/build",
+    "frontend/package.json",
+    "frontend/yarn.lock",
+    "package.json",
+    "yarn.lock"
   ]
 }
