@@ -1,6 +1,6 @@
 {
-  "name": "wolfandsheep",
-  "alias": "sheep",
+  "name": "foxandsheep",
+  "alias": "fox",
   "files": [
     "backend/dist",
     "backend/yarn.lock",
