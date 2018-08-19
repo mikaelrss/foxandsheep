@@ -9,8 +9,4 @@ describe('', () => {
 
     expect(wrapper).toMatchSnapshot();
   });
-
-  it('shall fail', () => {
-    expect(false).toBe(true);
-  });
 });
