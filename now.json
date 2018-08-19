@@ -1,14 +1,4 @@
 {
   "name": "foxandsheep",
-  "alias": "fox",
-  "files": [
-    "backend/dist",
-    "backend/yarn.lock",
-    "backend/package.json",
-    "frontend/build",
-    "frontend/package.json",
-    "frontend/yarn.lock",
-    "package.json",
-    "yarn.lock"
-  ]
+  "alias": "fox"
 }
