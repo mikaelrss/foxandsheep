@@ -11,7 +11,7 @@ script: npm run build
 before_deploy: npm i now --no-save
 deploy:
   provider: script
-  script: now --token $NOW_TOKEN --public && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN rm wolfandsheep --safe --yes
+  script: now --token $NOW_TOKEN --public && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN rm foxandsheep --safe --yes
   skip_cleanup: true
   on:
     master: true
