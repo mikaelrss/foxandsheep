@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d96ca791-7e2f-4c56-aa65-21fc341aeb01" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,7 +41,7 @@
           <entry key="json" value="13" />
           <entry key="lock" value="1" />
           <entry key="log" value="2" />
-          <entry key="md" value="5" />
+          <entry key="md" value="6" />
           <entry key="npmignore" value="1" />
           <entry key="scss" value="28" />
           <entry key="ts" value="1" />
@@ -53,7 +53,7 @@
           <entry key="HTML" value="2" />
           <entry key="JSON" value="16" />
           <entry key="JavaScript" value="87" />
-          <entry key="Markdown" value="4" />
+          <entry key="Markdown" value="5" />
           <entry key="PLAIN_TEXT" value="12" />
           <entry key="SCSS" value="28" />
           <entry key="TypeScript" value="1" />
@@ -67,6 +67,7 @@
           <entry key="html" value="1" />
           <entry key="js" value="37991" />
           <entry key="json" value="1017" />
+          <entry key="md" value="84" />
           <entry key="npmignore" value="13" />
           <entry key="scss" value="2011" />
         </counts>
@@ -76,6 +77,7 @@
           <entry key="HTML" value="1" />
           <entry key="JSON" value="1050" />
           <entry key="JavaScript" value="37991" />
+          <entry key="Markdown" value="84" />
           <entry key="PLAIN_TEXT" value="70" />
           <entry key="SCSS" value="2011" />
         </counts>
@@ -126,11 +128,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="71" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="71" />
+            <state relative-caret-position="120">
+              <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="60">
+                <caret line="4" selection-start-line="4" selection-end-line="4" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -183,7 +197,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Fox.js" />
         <option value="$PROJECT_DIR$/frontend/src/components/game/characters/fox/Fox.scss" />
         <option value="$PROJECT_DIR$/backend/src/mongoose/mongooseConnector.js" />
         <option value="$PROJECT_DIR$/backend/src/schema/typeDefinitions.js" />
@@ -234,6 +247,7 @@
         <option value="$PROJECT_DIR$/.npmignore" />
         <option value="$PROJECT_DIR$/frontend/src/components/lobby/Lobby.js" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -392,12 +406,12 @@
       <workItem from="1534071990784" duration="7506000" />
       <workItem from="1534080584318" duration="3220000" />
       <workItem from="1534352487635" duration="26067000" />
-      <workItem from="1534667144036" duration="6409000" />
+      <workItem from="1534667144036" duration="6627000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="89522000" />
+    <option name="totallyTimeSpent" value="89740000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="953" y="0" width="974" height="1047" extended-state="0" />
@@ -707,14 +721,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/backend/src/game/boardCreator.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="503">
@@ -766,8 +772,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="71" selection-start-line="6" selection-start-column="71" selection-end-line="6" selection-end-column="71" />
+        <state relative-caret-position="120">
+          <caret line="8" column="42" selection-start-line="8" selection-start-column="42" selection-end-line="8" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="60">
+            <caret line="4" selection-start-line="4" selection-end-line="4" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
