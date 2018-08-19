@@ -1,5 +1,6 @@
 :local(.character) {
   position: absolute;
+  z-index: 5;
 
   &.fox {
     background-color: orange;

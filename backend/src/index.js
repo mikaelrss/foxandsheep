@@ -34,7 +34,7 @@ export const roomToNameAndIdMapper = room => ({ name: room.name, id: room.roomId
 const cleanRooms = () => {
   for (let i = rooms.length - 1; i >= 0; --i) {
     const secondsWithoutPlayers = (new Date().getTime() - rooms[i].timeWithoutPlayers) / 1000;
-    if (rooms[i].timeWithoutPlayers && secondsWithoutPlayers > 10) {
+    if (rooms[i].timeWithoutPlayers && secondsWithoutPlayers > 3) {
       rooms.splice(i, 1);
       io.emit('roomNames', { rooms: rooms.map(roomToNameAndIdMapper) });
     }
@@ -56,11 +56,14 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     disconnect(socket, io);
   });
+  socket.on('leftGame', () => {
+    disconnect(socket, io);
+  });
 });
 
 setInterval(() => {
   cleanRooms();
-}, 20000);
+}, 3000);
 
 httpServer.listen(process.env.PORT || DEFAULT_PORT, () => {
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);

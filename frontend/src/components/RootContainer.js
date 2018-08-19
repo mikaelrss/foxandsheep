@@ -1,23 +1,35 @@
 // @flow
 
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Version from './version/Version';
+import io from 'socket.io-client';
 
 import style from './RootContainer.css';
 import Lobby from './lobby/Lobby';
+import Game from './game/Game';
 
-const RootContainer = () => {
-  return (
-    <div className={style.container}>
-      <div className={style.content}>
-        <Switch>
-          <Route path="/version" component={Version} />
-          <Route path="/" component={Lobby} />
-        </Switch>
+class RootContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      socket: io(),
+    };
+  }
+  render() {
+    return (
+      <div className={style.container}>
+        <div className={style.content}>
+          <Switch>
+            <Route path="/version" component={Version} />
+            <Route path="/lobby" render={() => <Lobby socket={this.state.socket} />} />
+            <Route path="/game/:roomId" render={() => <Game cellSize={40} socket={this.state.socket} />} />
+            <Redirect to="/lobby" />
+          </Switch>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default RootContainer;

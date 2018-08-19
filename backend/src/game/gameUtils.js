@@ -19,6 +19,7 @@ export const findCurrentOpponent = socket => {
 export const playerIsCatcher = socket => {
   const room = findCurrentRoom(socket);
   const opponent = findCurrentOpponent(socket);
+  if (!room || !opponent) return;
 
   return opponent !== room.catcher.id;
 };

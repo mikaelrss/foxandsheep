@@ -22,24 +22,31 @@ type Props = {
     hasOpponentMadeMove: boolean,
   },
   socket: Socket,
+  handleGameOver: Function,
 };
 
-const Msg = ({ closeToast }) => (
-  <div>
-    Lorem ipsum dolor
-    <button>Retry</button>
-    <button onClick={closeToast}>Close</button>
-  </div>
-)
+const InfoMessage = ({ closeToast, message }) => <div>{message}</div>;
 
 class GameHeader extends Component<Props> {
   constructor(props) {
     super(props);
     props.socket.on('opponentFoundGrass', this.handleOpponentFoundGrass);
+    props.socket.on('gameLost', this.handleGameLost);
+    props.socket.on('gameWon', this.handleGameWon);
   }
 
+  handleGameLost = () => {
+    this.props.handleGameOver('lost');
+    return toast(<InfoMessage message="You lost the game!" />);
+  };
+
+  handleGameWon = () => {
+    this.props.handleGameOver('won');
+    return toast(<InfoMessage message="You won the game!!" />);
+  };
+
   handleOpponentFoundGrass = () => {
-    return toast(<Msg/>);
+    return toast(<InfoMessage message="Opponent found a cabbage!" />);
   };
 
   render() {

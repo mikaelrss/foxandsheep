@@ -53,6 +53,8 @@ type State = {
   movesMade: number,
   readyToShowMoves: boolean,
   grassPositions: Array<PositionWithKey>,
+  gameOver: boolean,
+  winStatus: string,
 };
 
 type GameProps = {
@@ -87,9 +89,6 @@ class Game extends Component<GameProps, State> {
     props.socket.on('opponentHidePosition', this.handleOpponentHidePosition);
     props.socket.on('turnFinished', this.handleTurnFinished);
 
-    props.socket.on('gameLost', this.handleGameLost);
-    props.socket.on('gameWon', this.handleGameWon);
-
     props.socket.on('illegalMove', this.handleIllegalMove);
 
     if (props.match.params && this.props.match.params.roomId) {
@@ -105,7 +104,15 @@ class Game extends Component<GameProps, State> {
   componentWillUnmount() {
     document.removeEventListener('keydown', this.handlePlayerMovement);
     document.removeEventListener('keyup', this.handlePlayerActions);
+    this.state.socket.emit('leftGame');
   }
+
+  handleGameOver = status => {
+    this.setState({
+      winStatus: status,
+      gameOver: true,
+    });
+  };
 
   handlePlayerMovement = (event: SyntheticInputEvent<KeyboardEvent>) => {
     switch (event.code) {
@@ -143,14 +150,6 @@ class Game extends Component<GameProps, State> {
       default:
         return;
     }
-  };
-
-  handleGameLost = () => {
-    console.log('You lost the game!');
-  };
-
-  handleGameWon = () => {
-    console.log('You won the game!');
   };
 
   handleRoomNotFound = () => {
@@ -314,8 +313,20 @@ class Game extends Component<GameProps, State> {
     });
   };
 
+  handleMobileMove = (y, x) => {
+    const { playerPosition, stepSize } = this.state;
+    if (x < playerPosition.x - stepSize || x > playerPosition.x + stepSize) return;
+    if (y < playerPosition.y - stepSize || y > playerPosition.y + stepSize) return;
+    this.setState({
+      playerPosition: {
+        x,
+        y,
+      },
+    });
+  };
+
   render() {
-    const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible, grassPositions } = this.state;
+    const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible, grassPositions, gameOver } = this.state;
     let { cellSize } = this.props;
 
     const boardWidth = cellSize * this.state.gameBoard.length;
@@ -325,32 +336,54 @@ class Game extends Component<GameProps, State> {
       cellSize = (screenWidth - 30 - 30) / this.state.gameBoard.length;
     }
 
-    console.log(style);
-
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
-        <GameHeader gameState={this.state} socket={this.state.socket} />
-        <div className={style.board}>
-          {this.state.readyToShowMoves && <MoveReadyCounter />}
-          {this.state.gameBoard &&
-            this.state.gameBoard.length &&
-            this.state.gameBoard.map(row => {
-              return <Row playerIsCatcher={playerIsCatcher} cells={row.row} cellSize={cellSize} key={row.key} />;
-            })}
-          {playerPosition && (
-            <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
-          )}
-          {opponentPosition &&
-            opponentVisible && (
-              <Character
-                position={opponentPosition}
-                cellSize={cellSize}
-                character={!playerIsCatcher ? 'fox' : 'sheep'}
-              />
+        <GameHeader gameState={this.state} socket={this.state.socket} handleGameOver={this.handleGameOver} />
+        {!gameOver && (
+          <div className={style.board}>
+            {this.state.readyToShowMoves && <MoveReadyCounter />}
+            {this.state.gameBoard &&
+              this.state.gameBoard.length &&
+              this.state.gameBoard.map((row, index) => {
+                return (
+                  <Row
+                    playerIsCatcher={playerIsCatcher}
+                    cells={row.row}
+                    cellSize={cellSize}
+                    key={row.key}
+                    moveHandler={this.handleMobileMove.bind(this, index)}
+                  />
+                );
+              })}
+            {playerPosition && (
+              <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
             )}
-          {!playerIsCatcher && <GrassList grassPositions={grassPositions} cellSize={cellSize} />}
-        </div>
+            {opponentPosition &&
+              opponentVisible && (
+                <Character
+                  position={opponentPosition}
+                  cellSize={cellSize}
+                  character={!playerIsCatcher ? 'fox' : 'sheep'}
+                />
+              )}
+            {!playerIsCatcher && (
+              <GrassList grassPositions={grassPositions} cellSize={cellSize} moveHandler={this.handleMobileMove} />
+            )}
+          </div>
+        )}
+        {gameOver && (
+          <div
+            className={style.dummyContainer}
+            style={{
+              height: `${cellSize * this.state.gameBoard.length}px`,
+              width: `${cellSize * this.state.gameBoard.length}px`,
+            }}
+          >
+            <div>Game over, you {this.state.winStatus}!</div>
+            <Button text="Back to lobby" />
+          </div>
+        )}
         <Button onClick={this.handleCommit} className={style.commitButton} text="Commit move" />
       </div>
     );

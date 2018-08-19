@@ -11,13 +11,10 @@ type Props = {
   style?: ?string,
 };
 
-const Button = ({ onClick, className, style, text }) => {
-  console.log(className);
-  return (
-    <button className={classNames(css.button, className)} onClick={onClick}>
-      {text}
-    </button>
-  );
-};
+const Button = ({ onClick, className, style, text }: Props) => (
+  <button className={classNames(css.button, className)} onClick={onClick}>
+    {text}
+  </button>
+);
 
 export default Button;

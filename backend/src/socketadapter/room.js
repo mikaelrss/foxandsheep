@@ -1,6 +1,6 @@
 import { rooms, roomToNameAndIdMapper } from '../index';
 import { initializeRoom } from '../game/roomCreator';
-import { createClientInformation, findCurrentRoom } from "../game/gameUtils";
+import { createClientInformation, findCurrentRoom } from '../game/gameUtils';
 
 export const createRoom = (socket, io, payload) => {
   const room = initializeRoom(socket, payload.roomName);
@@ -35,14 +35,13 @@ export const joinRoom = (socket, io, payload) => {
 };
 
 export const disconnect = (socket, io) => {
-  console.log("Disconnect");
+  console.log('Disconnect');
   const currentRoom = findCurrentRoom(socket);
   if (!currentRoom) return;
   if (currentRoom.catcher.id === socket.id) currentRoom.catcher.id = null;
-  else if (currentRoom.runner.id === socket.id) currentRoom.runner.id = null;
+  if (currentRoom.runner.id === socket.id) currentRoom.runner.id = null;
 
   if (!currentRoom.catcher.id && !currentRoom.runner.id) {
-    currentRoom.timeWithoutPlayers = new Date().getTime()
-    io.emit('roomsUpdated', { rooms: rooms.map(roomToNameAndIdMapper) });
+    currentRoom.timeWithoutPlayers = new Date().getTime();
   }
 };
