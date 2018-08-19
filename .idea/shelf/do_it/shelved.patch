@@ -1,0 +1,16 @@
+Index: frontend/src/components/game/GameActions.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { createAction } from 'redux-actions';\r\n\r\nexport const SET_GAME_STATE = 'SET_GAME_STATE';\r\n\r\nconst setGameStateAction = createAction(SET_GAME_STATE);\r\n\r\nexport const setGameState = (gameState, roomName) => dispatch => {\r\n  console.log(gameState);\r\n  dispatch(setGameStateAction({ gameState, roomName }));\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- frontend/src/components/game/GameActions.js	(revision 63bbf85a68485d27e0db5d8263349401cd6b69a5)
++++ frontend/src/components/game/GameActions.js	(date 1534610647011)
+@@ -5,6 +5,5 @@
+ const setGameStateAction = createAction(SET_GAME_STATE);
+ 
+ export const setGameState = (gameState, roomName) => dispatch => {
+-  console.log(gameState);
+   dispatch(setGameStateAction({ gameState, roomName }));
+ };

@@ -2,6 +2,8 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import socket from 'socket.io';
 import http from 'http';
+import 'babel-polyfill';
+import path from 'path';
 
 import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
@@ -16,6 +18,12 @@ const server = new ApolloServer({
 });
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, '../../frontend/build')));
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '../../frontend/build', 'index.html'));
+});
+
 server.applyMiddleware({ app });
 const httpServer = http.createServer(app);
 const io = socket(httpServer);

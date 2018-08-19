@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { withRouter, Switch, Route, Link } from 'react-router-dom';
 import sillyName from 'sillyname';
-import camelCase from 'camelcase';
 
 import type { Socket } from 'socket.io-client';
 

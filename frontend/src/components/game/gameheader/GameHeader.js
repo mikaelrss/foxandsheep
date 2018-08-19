@@ -39,7 +39,6 @@ class GameHeader extends Component<Props> {
   }
 
   handleOpponentFoundGrass = () => {
-    console.log('TSATS');
     return toast(<Msg/>);
   };
 

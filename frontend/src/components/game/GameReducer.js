@@ -15,7 +15,6 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SET_GAME_STATE:
-      console.log(action);
       return {
         ...state,
         [action.payload.roomName]: {

@@ -55,7 +55,6 @@ export const emitWinAndLossIfGameIsOver = (socket, io, room) => {
   }
 
   if (grassPositions.length === 0) {
-    console.log("SHALL REMOVE");
     io.to(room.catcher.id).emit('gameLost');
     io.to(room.runner.id).emit('gameWon');
 
