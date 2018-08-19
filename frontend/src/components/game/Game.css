@@ -1,7 +1,27 @@
 :local(.gameContainer) {
-  text-align: center; }
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative; }
+
+:local(.dummyContainer) {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #69e6ff;
+  position: relative; }
+  :local(.dummyContainer) div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%); }
 
 :local(.board) {
   position: relative;
   display: inline-flex;
   flex-direction: column; }
+
+:local(.commitButton) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -100px; }

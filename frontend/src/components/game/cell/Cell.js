@@ -14,12 +14,13 @@ type CellProps = {
   playerIsCatcher: boolean,
 };
 
-const Cell = ({ cellSize, cell, playerIsCatcher }: CellProps) => (
+const Cell = ({ cellSize, cell, playerIsCatcher, moveHandler }: CellProps) => (
   <div
     style={{
       height: `${cellSize}px`,
       width: `${cellSize}px`,
     }}
+    onClick={cell.highlighted ? moveHandler : null}
     className={classNames(style.cell, { highlighted: cell.highlighted })}
   >
     {!playerIsCatcher && cell.grass && <Grass />}

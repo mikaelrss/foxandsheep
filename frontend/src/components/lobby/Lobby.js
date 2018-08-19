@@ -1,14 +1,13 @@
 // @flow
 
 import React, { Component } from 'react';
-import { withRouter, Switch, Route, Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import sillyName from 'sillyname';
 
 import type { Socket } from 'socket.io-client';
 
-import Game from '../game/Game';
-import io from 'socket.io-client';
-import style from './Game.css';
+import style from './Lobby.css';
+import Button from '../shared/button/Button';
 
 type Props = {};
 
@@ -25,23 +24,22 @@ type State = {
 class Lobby extends Component<Props, State> {
   constructor(props) {
     super(props);
-    const socket = io();
 
-    socket.on('roomNames', this.initRoomNames);
-    socket.on('roomsUpdated', this.updateRoomNames);
+    props.socket.on('roomNames', this.initRoomNames);
+    props.socket.on('roomsUpdated', this.updateRoomNames);
 
-    socket.on('roomCreated', this.enterRoom);
+    props.socket.on('roomCreated', this.enterRoom);
 
-    socket.on('startGame', payload => {
+    props.socket.on('startGame', payload => {
       console.log('Start Game', payload);
     });
 
-    socket.on('roomFull', payload => {
+    props.socket.on('roomFull', payload => {
       console.log('Room is full. Sorry!', payload);
     });
 
     this.state = {
-      socket,
+      socket: props.socket,
       rooms: [],
     };
   }
@@ -73,9 +71,6 @@ class Lobby extends Component<Props, State> {
     const joinedRoom = this.props.location.pathname.includes('game');
     return (
       <div>
-        <Switch>
-          <Route path="/game/:roomId" render={() => <Game cellSize={40} socket={this.state.socket} />} />
-        </Switch>
         {!joinedRoom && (
           <div>
             <h3>Active rooms</h3>
@@ -87,7 +82,7 @@ class Lobby extends Component<Props, State> {
                 </div>
               ))}
             </div>
-            <button onClick={this.createRoom}>Create room</button>
+            <Button onClick={this.createRoom} text="Create room" />
           </div>
         )}
       </div>

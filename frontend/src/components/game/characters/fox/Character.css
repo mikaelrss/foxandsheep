@@ -1,5 +1,6 @@
 :local(.character) {
-  position: absolute; }
+  position: absolute;
+  z-index: 5; }
   :local(.character).fox {
     background-color: orange; }
   :local(.character).cat {

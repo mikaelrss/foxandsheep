@@ -82,14 +82,14 @@ export const createGameState = (rowNumber, playerIsCatcher) => {
 
   const playerPositions = createPlayerPositions(gameBoard, 1);
 
-  const grassPositions = generateGrassPositions(gameBoard, 3);
+  const grassPositions = generateGrassPositions(gameBoard, 10);
   placePlayersOnBoard(gameBoard, playerPositions);
 
   return {
     gameBoard,
     grassPositions,
     catcherStepSize: 3,
-    runnerStepSize: 10,
+    runnerStepSize: 2,
     catcherPosition: playerPositions[0],
     runnerPosition: playerPositions[1],
     playerIsCatcher,
