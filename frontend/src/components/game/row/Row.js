@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Cell from '../cell/Cell';
-import { spring } from 'react-spring';
 
 import style from './Row.css';
 import type { CellType } from '../../../types';
