@@ -79,6 +79,7 @@ class Lobby extends Component<Props, State> {
         {!joinedRoom && (
           <div>
             <h3>Rooms</h3>
+            <div>This is a new lien to test deeployily</div>
             <div className={style.roomList}>
               {this.state.rooms.map(room => (
                 <div key={room.id}>
