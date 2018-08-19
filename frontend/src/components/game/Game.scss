@@ -1,5 +1,6 @@
 :local(.gameContainer) {
   text-align: center;
+  position: relative;
 }
 
 :local(.board) {
@@ -8,4 +9,9 @@
   flex-direction: column;
 }
 
-
+:local(.commitButton) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -100px;
+}

@@ -20,6 +20,7 @@ import GameHeader from './gameheader/GameHeader';
 import style from './Game.css';
 import MoveReadyCounter from './movereadycounter/MoveReadyCounter';
 import GrassList from './grasslist/GrassList';
+import Button from '../shared/button/Button';
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
   const insideX = cellPosition.x >= originalPosition.x - step && cellPosition.x <= originalPosition.x + step;
@@ -121,7 +122,9 @@ class Game extends Component<GameProps, State> {
         this.moveRight();
         break;
       case 'KeyS':
-        if (event.repeat) return;
+        if (event.repeat) {
+          return;
+        }
         this.state.socket.emit('showPosition', { position: this.state.playerPosition });
         break;
       default:
@@ -232,7 +235,9 @@ class Game extends Component<GameProps, State> {
   };
 
   moveUp = () => {
-    if (this.state.hasPlayerMadeMove) return;
+    if (this.state.hasPlayerMadeMove) {
+      return;
+    }
     const { playerPosition, originalPlayerPosition } = this.state;
     if (playerPosition.y <= 0) {
       return;
@@ -249,7 +254,9 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveDown = () => {
-    if (this.state.hasPlayerMadeMove) return;
+    if (this.state.hasPlayerMadeMove) {
+      return;
+    }
 
     const { playerPosition, originalPlayerPosition } = this.state;
     if (playerPosition.y >= this.state.gameBoard[0].row.length - 1) {
@@ -267,7 +274,9 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveLeft = () => {
-    if (this.state.hasPlayerMadeMove) return;
+    if (this.state.hasPlayerMadeMove) {
+      return;
+    }
 
     const { playerPosition, originalPlayerPosition } = this.state;
     if (playerPosition.x <= 0) {
@@ -285,7 +294,9 @@ class Game extends Component<GameProps, State> {
     });
   };
   moveRight = () => {
-    if (this.state.hasPlayerMadeMove) return;
+    if (this.state.hasPlayerMadeMove) {
+      return;
+    }
 
     const { playerPosition, originalPlayerPosition } = this.state;
     if (playerPosition.x >= this.state.gameBoard[0].row.length - 1) {
@@ -305,7 +316,16 @@ class Game extends Component<GameProps, State> {
 
   render() {
     const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible, grassPositions } = this.state;
-    const { cellSize } = this.props;
+    let { cellSize } = this.props;
+
+    const boardWidth = cellSize * this.state.gameBoard.length;
+
+    const screenWidth = document.documentElement.clientWidth;
+    if (boardWidth + 30 > screenWidth && this.state.gameBoard.length) {
+      cellSize = (screenWidth - 30 - 30) / this.state.gameBoard.length;
+    }
+
+    console.log(style);
 
     return (
       <div className={style.gameContainer}>
@@ -331,6 +351,7 @@ class Game extends Component<GameProps, State> {
             )}
           {!playerIsCatcher && <GrassList grassPositions={grassPositions} cellSize={cellSize} />}
         </div>
+        <Button onClick={this.handleCommit} className={style.commitButton} text="Commit move" />
       </div>
     );
   }

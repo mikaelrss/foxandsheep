@@ -8,7 +8,8 @@ import type { Socket } from 'socket.io-client';
 
 import Game from '../game/Game';
 import io from 'socket.io-client';
-import style from './Game.css';
+import style from './Lobby.css';
+import Button from '../shared/button/Button';
 
 type Props = {};
 
@@ -87,7 +88,7 @@ class Lobby extends Component<Props, State> {
                 </div>
               ))}
             </div>
-            <button onClick={this.createRoom}>Create room</button>
+            <Button onClick={this.createRoom} text="Create room" />
           </div>
         )}
       </div>
