@@ -7,7 +7,7 @@ import sillyName from 'sillyname';
 import type { Socket } from 'socket.io-client';
 
 import Game from '../game/Game';
-import socketClient from 'socket.io-client';
+import io from 'socket.io-client';
 import style from './Game.css';
 
 type Props = {};
@@ -25,7 +25,7 @@ type State = {
 class Lobby extends Component<Props, State> {
   constructor(props) {
     super(props);
-    const socket = socketClient('http://localhost:4000');
+    const socket = io();
 
     socket.on('roomNames', this.initRoomNames);
     socket.on('roomsUpdated', this.updateRoomNames);
