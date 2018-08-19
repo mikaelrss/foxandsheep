@@ -1,4 +1,8 @@
 {
   "name": "wolfandsheep",
-  "alias": "sheep"
+  "alias": "sheep",
+  "files": [
+    "backend/dist",
+    "frontend/build"
+  ]
 }

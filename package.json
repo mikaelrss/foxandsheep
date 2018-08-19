@@ -7,13 +7,14 @@
     "postinstall": "npm run install:backend && npm run install:frontend",
     "install:backend": "cd backend && npm install",
     "install:frontend": "cd frontend && npm install",
-    "start": "run-p start:backend",
+    "start": "npm run start:backend",
     "start:backend": "cd backend && npm run start",
     "start:frontend": "cd frontend && npm run start",
     "build": "run-p build:backend build:frontend",
     "build:backend": "cd backend && npm run build",
     "build:frontend": "cd frontend && npm run build",
-    "test": "cd frontend && npm run test"
+    "test": "cd frontend && npm run test",
+    "now-build": "echo 'Build on Travis CI'"
   },
   "repository": {
     "type": "git",

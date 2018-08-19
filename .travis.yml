@@ -6,11 +6,11 @@ cache:
     - "node_modules"
     - "backend/node_modules"
     - "frontend/node_modules"
-script: npm test
+script: npm test && npm run build
 before_deploy: npm i now --no-save
 deploy:
   provider: script
-  script: now --token $NOW_TOKEN --public && now alias && now rm wolfandsheep --safe --yes
+  script: now --token $NOW_TOKEN --public && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN rm wolfandsheep --safe --yes
   skip_cleanup: true
   on:
     master: true
