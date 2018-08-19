@@ -14,8 +14,7 @@
     "build:backend": "cd backend && npm run build",
     "build:frontend": "cd frontend && npm run build",
     "test": "cd frontend && npm run test",
-    "now-build": "echo 'Build on Travis CI'",
-    "now-install": "echo 'Installed on Travis CI'"
+    "now-build": "echo 'Build on Travis CI'"
   },
   "repository": {
     "type": "git",
