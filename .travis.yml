@@ -1,17 +1,24 @@
 language: node_js
 node_js:
-  - "node"
+  - 'node'
 cache:
   directories:
-    - "node_modules"
-    - "backend/node_modules"
-    - "frontend/node_modules"
+    - 'node_modules'
+    - 'backend/node_modules'
+    - 'frontend/node_modules'
 before_script: npm run test
 script: npm run build
 before_deploy: npm i now --no-save
 deploy:
-  provider: script
-  script: now --token $NOW_TOKEN --public && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN rm foxandsheep --safe --yes
-  skip_cleanup: true
-  on:
-    master: true
+  - provider: script # Run a custom deployment script which we will define below
+    script: now --token $NOW_TOKEN
+    skip_cleanup: true
+    on:
+      all_branches: true
+      master: false
+  - provider: script
+    script:
+      now --token $NOW_TOKEN --public && now --token $NOW_TOKEN alias && now --token $NOW_TOKEN rm foxandsheep --safe --yes
+    skip_cleanup: true
+    on:
+      master: true
