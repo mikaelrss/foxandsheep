@@ -1,6 +1,8 @@
 import shortId from 'shortid';
 
 import { randomIntFromInterval } from '../utils/Math';
+import { CATCHER_STEP_SIZE, RUNNER_STEP_SIZE } from './constants';
+import { initializeCatcherPowerUps, initializeRunnerPowerUps } from './powerup/powerUpTypes';
 
 const createGameRow = cellNumber => {
   const gameRow = [];
@@ -88,14 +90,18 @@ export const createGameState = (rowNumber, playerIsCatcher) => {
   return {
     gameBoard,
     grassPositions,
-    catcherStepSize: 3,
-    runnerStepSize: 2,
-    catcherPosition: playerPositions[0],
-    runnerPosition: playerPositions[1],
-    playerIsCatcher,
-    turn: {
-      catcherDone: false,
-      runnerDone: false,
+    catcher: {
+      stepSize: CATCHER_STEP_SIZE,
+      position: playerPositions[0],
+      done: false,
+      powerUps: initializeCatcherPowerUps(),
     },
+    runner: {
+      stepSize: RUNNER_STEP_SIZE,
+      position: playerPositions[1],
+      done: false,
+      powerUps: initializeRunnerPowerUps(),
+    },
+    playerIsCatcher,
   };
 };

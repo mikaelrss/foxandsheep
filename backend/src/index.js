@@ -9,6 +9,7 @@ import typeDefs from './schema/typeDefinitions';
 import resolvers from './schema/resolvers';
 import { createRoom, disconnect, joinRoom } from './socketadapter/room';
 import { commitPosition, hidePosition, showPosition } from './socketadapter/playeractions';
+import { handlePowerUp } from './game/powerup/powerUpHandler';
 
 const DEFAULT_PORT = 4000;
 
@@ -52,6 +53,7 @@ io.on('connection', socket => {
   socket.on('hidePosition', () => hidePosition(socket, io));
 
   socket.on('commitMove', payload => commitPosition(socket, io, payload));
+  socket.on('activatePowerUp', payload => handlePowerUp(socket, io, payload));
 
   socket.on('disconnect', () => {
     disconnect(socket, io);

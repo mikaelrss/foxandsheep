@@ -8,10 +8,14 @@ export type CellType = {
 
 export type GameStateType = {
   gameBoard: string,
-  catcherStepSize: number,
-  runnerStepSize: number,
-  catcherPosition: PositionType,
-  runnerPosition: PositionType,
+  catcher: {
+    stepSize: number,
+    position: PositionType,
+  },
+  runner: {
+    stepSize: number,
+    position: PositionType,
+  },
   playerIsCatcher: boolean,
 };
 

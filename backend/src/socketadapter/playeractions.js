@@ -11,6 +11,7 @@ import {
   emitWinAndLossIfGameIsOver,
 } from '../game/gameUtils';
 import { rooms } from '../index';
+import { tickAndResetPowerUps } from '../game/powerup/powerUpHandler';
 
 export const showPosition = (socket, io, payload) => {
   const opponent = findCurrentOpponent(socket);
@@ -28,16 +29,17 @@ export const commitPosition = (socket, io, payload) => {
   if (!moveIsValid(socket, io, payload)) return;
   const room = findCurrentRoom(socket);
   if (playerIsCatcher(socket)) {
-    room.gameState.catcherPosition = payload.position;
-    room.gameState.turn.catcherDone = true;
+    room.gameState.catcher.position = payload.position;
+    room.gameState.catcher.done = true;
   } else {
-    room.gameState.runnerPosition = payload.position;
-    room.gameState.turn.runnerDone = true;
+    room.gameState.runner.position = payload.position;
+    room.gameState.runner.done = true;
     emitIfRunnerFoundGrass(socket, io, room, payload.position);
   }
 
   io.to(findCurrentOpponent(socket)).emit('opponentReady');
   if (turnFinished(room)) {
+    tickAndResetPowerUps(room);
     io.to(room.id).emit('turnFinished', createClientInformation(room));
     emitWinAndLossIfGameIsOver(socket, io, room);
     resetTurn(room);

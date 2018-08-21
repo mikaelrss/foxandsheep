@@ -205,17 +205,18 @@ class Game extends Component<GameProps, State> {
   };
 
   handleServerStateChange = (payload: ClientInformationType) => {
+    const { gameBoard, grassPositions } = payload.gameState;
+
     const {
-      catcherPosition,
-      runnerPosition,
-      catcherStepSize,
-      runnerStepSize,
-      gameBoard,
-      grassPositions,
-    } = payload.gameState;
+      position: catcherPosition,
+      stepSize: catcherStepSize,
+      powerUps: catcherPowerUps,
+    } = payload.gameState.catcher;
+    const { position: runnerPosition, stepSize: runnerStepSize, powerUps: runnerPowerUps } = payload.gameState.runner;
 
     const playerIsCatcher = payload.catcher === this.state.socket.id;
     const playerPosition = playerIsCatcher ? catcherPosition : runnerPosition;
+    const playerPowerUps = playerIsCatcher ? catcherPowerUps : runnerPowerUps;
     const opponentPosition = playerIsCatcher ? runnerPosition : catcherPosition;
     const stepSize = playerIsCatcher ? catcherStepSize : runnerStepSize;
 
@@ -230,6 +231,7 @@ class Game extends Component<GameProps, State> {
         playerIsCatcher,
         gameBoard: highlightLegalSquares(gameBoard, playerPosition, stepSize),
         grassPositions,
+        playerPowerUps,
       });
     });
   };
@@ -406,7 +408,7 @@ class Game extends Component<GameProps, State> {
             <div>Game over, you {this.state.winStatus}!</div>
           </div>
         )}
-        <PowerUpList socket={socket} />
+        <PowerUpList socket={socket} powerUps={this.state.playerPowerUps} />
         <Button
           onClick={!gameOver ? this.handleCommit : this.sendBackToLobby}
           className={style.commitButton}
