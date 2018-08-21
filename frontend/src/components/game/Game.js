@@ -21,6 +21,7 @@ import style from './Game.css';
 import MoveReadyCounter from './movereadycounter/MoveReadyCounter';
 import GrassList from './grasslist/GrassList';
 import Button from '../shared/button/Button';
+import PowerUpList from './powerup/PowerUpList';
 
 const applyHighlight = (cell: CellType, originalPosition: PositionType, cellPosition: PositionType, step: number) => {
   const insideX = cellPosition.x >= originalPosition.x - step && cellPosition.x <= originalPosition.x + step;
@@ -204,17 +205,18 @@ class Game extends Component<GameProps, State> {
   };
 
   handleServerStateChange = (payload: ClientInformationType) => {
+    const { gameBoard, grassPositions } = payload.gameState;
+
     const {
-      catcherPosition,
-      runnerPosition,
-      catcherStepSize,
-      runnerStepSize,
-      gameBoard,
-      grassPositions,
-    } = payload.gameState;
+      position: catcherPosition,
+      stepSize: catcherStepSize,
+      powerUps: catcherPowerUps,
+    } = payload.gameState.catcher;
+    const { position: runnerPosition, stepSize: runnerStepSize, powerUps: runnerPowerUps } = payload.gameState.runner;
 
     const playerIsCatcher = payload.catcher === this.state.socket.id;
     const playerPosition = playerIsCatcher ? catcherPosition : runnerPosition;
+    const playerPowerUps = playerIsCatcher ? catcherPowerUps : runnerPowerUps;
     const opponentPosition = playerIsCatcher ? runnerPosition : catcherPosition;
     const stepSize = playerIsCatcher ? catcherStepSize : runnerStepSize;
 
@@ -229,6 +231,7 @@ class Game extends Component<GameProps, State> {
         playerIsCatcher,
         gameBoard: highlightLegalSquares(gameBoard, playerPosition, stepSize),
         grassPositions,
+        playerPowerUps,
       });
     });
   };
@@ -313,7 +316,7 @@ class Game extends Component<GameProps, State> {
     });
   };
 
-  handleMobileMove = (y, x) => {
+  handleMoveByCoordinates = (y, x) => {
     const { playerPosition, stepSize } = this.state;
     if (x < playerPosition.x - stepSize || x > playerPosition.x + stepSize) return;
     if (y < playerPosition.y - stepSize || y > playerPosition.y + stepSize) return;
@@ -325,8 +328,20 @@ class Game extends Component<GameProps, State> {
     });
   };
 
+  sendBackToLobby = () => {
+    this.props.history.push('/lobby');
+  };
+
   render() {
-    const { playerIsCatcher, playerPosition, opponentPosition, opponentVisible, grassPositions, gameOver } = this.state;
+    const {
+      playerIsCatcher,
+      playerPosition,
+      opponentPosition,
+      opponentVisible,
+      grassPositions,
+      gameOver,
+      socket,
+    } = this.state;
     let { cellSize } = this.props;
 
     const boardWidth = cellSize * this.state.gameBoard.length;
@@ -339,7 +354,7 @@ class Game extends Component<GameProps, State> {
     return (
       <div className={style.gameContainer}>
         <h3>This is game</h3>
-        <GameHeader gameState={this.state} socket={this.state.socket} handleGameOver={this.handleGameOver} />
+        <GameHeader gameState={this.state} socket={socket} handleGameOver={this.handleGameOver} />
         {!gameOver && (
           <div className={style.board}>
             {this.state.readyToShowMoves && <MoveReadyCounter />}
@@ -352,23 +367,33 @@ class Game extends Component<GameProps, State> {
                     cells={row.row}
                     cellSize={cellSize}
                     key={row.key}
-                    moveHandler={this.handleMobileMove.bind(this, index)}
+                    moveHandler={this.handleMoveByCoordinates.bind(this, index)}
                   />
                 );
               })}
-            {playerPosition && (
-              <Character position={playerPosition} cellSize={cellSize} character={playerIsCatcher ? 'fox' : 'sheep'} />
-            )}
             {opponentPosition &&
               opponentVisible && (
                 <Character
                   position={opponentPosition}
                   cellSize={cellSize}
                   character={!playerIsCatcher ? 'fox' : 'sheep'}
+                  moveHandler={this.handleMoveByCoordinates}
                 />
               )}
+            {playerPosition && (
+              <Character
+                position={playerPosition}
+                cellSize={cellSize}
+                character={playerIsCatcher ? 'fox' : 'sheep'}
+                moveHandler={this.handleMoveByCoordinates}
+              />
+            )}
             {!playerIsCatcher && (
-              <GrassList grassPositions={grassPositions} cellSize={cellSize} moveHandler={this.handleMobileMove} />
+              <GrassList
+                grassPositions={grassPositions}
+                cellSize={cellSize}
+                moveHandler={this.handleMoveByCoordinates}
+              />
             )}
           </div>
         )}
@@ -381,10 +406,14 @@ class Game extends Component<GameProps, State> {
             }}
           >
             <div>Game over, you {this.state.winStatus}!</div>
-            <Button text="Back to lobby" />
           </div>
         )}
-        <Button onClick={this.handleCommit} className={style.commitButton} text="Commit move" />
+        <PowerUpList socket={socket} powerUps={this.state.playerPowerUps} />
+        <Button
+          onClick={!gameOver ? this.handleCommit : this.sendBackToLobby}
+          className={style.commitButton}
+          text={!gameOver ? 'Commit move' : 'Back to lobby'}
+        />
       </div>
     );
   }

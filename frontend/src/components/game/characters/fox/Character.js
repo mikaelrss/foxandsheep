@@ -16,6 +16,7 @@ type Props = {
 
 type State = {
   position: PositionType,
+  moveHandler: (y: number, x: number) => void,
 };
 
 class Character extends Component<Props, State> {
@@ -45,6 +46,7 @@ class Character extends Component<Props, State> {
           return (
             <div
               className={classNames(css.character, character)}
+              onClick={this.props.moveHandler.bind(this, position.y, position.x)}
               style={{
                 top: `${top * cellSize}px`,
                 left: `${left * cellSize}px`,

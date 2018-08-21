@@ -24,13 +24,11 @@ export const playerIsCatcher = socket => {
   return opponent !== room.catcher.id;
 };
 
-export const turnFinished = room => room.gameState.turn.catcherDone && room.gameState.turn.runnerDone;
+export const turnFinished = room => room.gameState.catcher.done && room.gameState.runner.done;
 
 export const resetTurn = room => {
-  room.gameState.turn = {
-    runnerDone: false,
-    catcherDone: false,
-  };
+  room.gameState.catcher.done = false;
+  room.gameState.runner.done = false;
 };
 
 export const emitIfRunnerFoundGrass = (socket, io, { gameState }, runnerPosition) => {
@@ -44,7 +42,9 @@ export const emitIfRunnerFoundGrass = (socket, io, { gameState }, runnerPosition
 };
 
 export const emitWinAndLossIfGameIsOver = (socket, io, room) => {
-  const { catcherPosition, runnerPosition, grassPositions } = room.gameState;
+  const { grassPositions } = room.gameState;
+  const { position: catcherPosition } = room.gameState.catcher;
+  const { position: runnerPosition } = room.gameState.runner;
 
   if (catcherPosition.x === runnerPosition.x && catcherPosition.y === runnerPosition.y) {
     io.to(room.catcher.id).emit('gameWon');
@@ -65,13 +65,13 @@ export const emitWinAndLossIfGameIsOver = (socket, io, room) => {
 };
 
 const findCurrentPosition = (socket, room) => {
-  if (playerIsCatcher(socket)) return room.gameState.catcherPosition;
-  return room.gameState.runnerPosition;
+  if (playerIsCatcher(socket)) return room.gameState.catcher.position;
+  return room.gameState.runner.position;
 };
 
 const findCurrentStepSize = (socket, room) => {
-  if (playerIsCatcher(socket)) return room.gameState.catcherStepSize;
-  return room.gameState.runnerStepSize;
+  if (playerIsCatcher(socket)) return room.gameState.catcher.stepSize;
+  return room.gameState.runner.stepSize;
 };
 
 export const moveIsValid = (socket, io, { position }) => {
