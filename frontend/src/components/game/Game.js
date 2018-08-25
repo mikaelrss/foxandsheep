@@ -225,7 +225,7 @@ class Game extends Component<GameProps, State> {
         roomName: payload.roomName,
         originalPlayerPosition: playerPosition,
         playerPosition,
-        opponentPosition,
+        opponentPosition: opponentPosition || this.state.opponentPosition,
         stepSize,
         hasOpponentConnected: playerIsCatcher ? payload.runner !== null : payload.catcher !== null,
         playerIsCatcher,

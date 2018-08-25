@@ -21,7 +21,7 @@ export type GameStateType = {
 
 export type ClientInformationType = {
   roomName: string,
-  gameState: Object,
+  gameState: GameStateType,
   catcher: string,
   runner: string,
 };

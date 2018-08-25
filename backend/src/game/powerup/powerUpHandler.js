@@ -1,4 +1,9 @@
-import { createClientInformation, findCurrentRoom, playerIsCatcher } from '../gameUtils';
+import {
+  createClientInformation,
+  createClientInformationWithoutOpponent,
+  findCurrentRoom,
+  playerIsCatcher,
+} from '../gameUtils';
 import {
   CATCHER_STEP_SIZE,
   CATCHER_STEP_SIZE_INCREASE,
@@ -28,7 +33,7 @@ const handleIncreaseStepSize = (socket, io) => {
       ...powerUps.slice(index + 1),
     ];
   }
-  io.to(socket.id).emit('serverStateChange', createClientInformation(room));
+  io.to(socket.id).emit('serverStateChange', createClientInformationWithoutOpponent(socket, room));
 };
 
 export const tickAndResetPowerUps = room => {
