@@ -98,3 +98,24 @@ export const createClientInformation = room => ({
   catcher: room.catcher.id,
   runner: room.runner.id,
 });
+
+export const createClientInformationWithoutOpponent = (socket, room) => {
+  let clientInformation = createClientInformation(room);
+  if (playerIsCatcher(socket)) {
+    return {
+      ...clientInformation,
+      gameState: {
+        ...clientInformation.gameState,
+        runner: { position: null },
+      },
+    };
+  }
+
+  return {
+    ...clientInformation,
+    gameState: {
+      ...clientInformation.gameState,
+      catcher: { position: null },
+    },
+  };
+};
